@@ -5,29 +5,22 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 @Data
-@Entity
-@Builder
 @AllArgsConstructor
+@Builder
+@Entity
+@Table(name="users")
+@NoArgsConstructor
 public class User {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	private Long id;
-
-	private String firstName;
-	
-	private String lastName;
-
-	private String email;
-
-	private String password;
-
-	public User() {
-	}
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String name;
+    private String username;
+    private String password;
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<Role> roles = new ArrayList<>();
 }
