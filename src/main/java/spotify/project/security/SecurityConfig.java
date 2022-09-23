@@ -43,7 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.sessionManagement().sessionCreationPolicy(STATELESS);
         http.authorizeRequests().antMatchers(AUTH_LIST).permitAll();
         http.authorizeRequests()
-                .antMatchers("/api/login/**", "/api/user/register/**", "api/user/token/refresh/**").permitAll()
+                .antMatchers("/api/**", "/api/login/**", "/api/user/register/**", "api/user/token/refresh/**").permitAll()
                 .antMatchers("/api/findByUsername/**", "api/role/save/**").hasAnyAuthority("OWNER")
                 .anyRequest().authenticated();
         http.addFilter(customAuthenticationFilter);
