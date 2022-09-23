@@ -15,12 +15,17 @@ import java.util.List;
 @Table(name="users")
 @NoArgsConstructor
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private String username;
     private String password;
+
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Role> roles = new ArrayList<>();
+
+    @OneToMany
+    private List<City> cities = new ArrayList<>();
 }
