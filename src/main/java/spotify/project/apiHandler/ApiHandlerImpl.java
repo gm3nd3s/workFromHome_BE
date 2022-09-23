@@ -2,6 +2,8 @@ package spotify.project.apiHandler;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
+import spotify.project.command.CategoryConverter;
+import spotify.project.command.CategoryDto;
 import spotify.project.command.CityDto;
 
 import java.util.HashMap;
@@ -22,6 +24,7 @@ public class ApiHandlerImpl implements ApiHandler{
 
 		CityDto cityDto = restTemplate.getForObject(GET_CITY_THREW_NAME, CityDto.class, params);
 		cityDto.setName(city);
+		cityDto.getCategories().stream().map(categoryDto -> CategoryConverter.convertToCategory(categoryDto));
 		return cityDto;
 
 	}
