@@ -1,5 +1,6 @@
 package spotify.project.command;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Data;
 import spotify.project.models.Category;
@@ -17,6 +18,5 @@ public class CityDto{
 
 	private Integer id;
 	private String name;
-	private List<CategoryDto> categories;
-	private String summary;
+	private Integer avg_score_0_to_10;
 }

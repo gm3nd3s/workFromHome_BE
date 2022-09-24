@@ -4,10 +4,15 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import spotify.project.command.CityDto;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+
 @Data
 @AllArgsConstructor
 @Builder
@@ -27,9 +32,8 @@ public class User {
     private List<Role> roles = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.EAGER)
-    private List<City> cities = new ArrayList<>();
-
-
+    @Fetch(value = FetchMode.SUBSELECT)
+    private List<City> citiesVisited = new ArrayList<>();
 
     @ManyToOne
     private City livingCity;

@@ -9,6 +9,7 @@ import java.util.List;
 public class CreateCityDto {
 
 	private String name;
-	private List<CategoryDto> categories;
+	private Integer avg_score_0_to_10;
+	private List<CreateCategoryDto> categories;
 	private String summary;
 }

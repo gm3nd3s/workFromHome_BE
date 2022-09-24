@@ -16,5 +16,6 @@ public class UserDto {
     private String username;
     private String password;
     private List<Role> roles;
-    private List<City> cityList;
+    private List<City> citiesVisited;
+    private City livingCity;
 }
