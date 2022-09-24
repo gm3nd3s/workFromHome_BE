@@ -6,7 +6,7 @@ import spotify.project.models.City;
 import java.util.stream.Collectors;
 
 public class CityConverter {
-
+	/*
 	public static CityDto convertToDto(City city) {
 		return CityDto.builder()
 				.name(city.getName())
@@ -18,6 +18,8 @@ public class CityConverter {
 				.summary(city.getSumary())
 				.build();
 	}
+
+	 */
 
 	public static City convertCreateCityDtoToCity(CreateCityDto createCityDto) {
 		return City.builder()

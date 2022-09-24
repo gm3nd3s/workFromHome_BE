@@ -26,6 +26,13 @@ public class User {
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Role> roles = new ArrayList<>();
 
-    @OneToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<City> cities = new ArrayList<>();
+
+
+
+    @ManyToOne
+    private City livingCity;
+
+
 }
