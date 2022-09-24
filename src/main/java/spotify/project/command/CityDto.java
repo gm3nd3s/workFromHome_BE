@@ -12,8 +12,10 @@ import java.util.List;
  * A DTO for the {@link City} entity
  */
 @Data
+@Builder
 public class CityDto{
 
+	private Integer id;
 	private String name;
 	private List<CategoryDto> categories;
 	private String summary;

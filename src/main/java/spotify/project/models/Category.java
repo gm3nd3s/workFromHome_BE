@@ -18,5 +18,5 @@ public class Category {
 	@Id
 	private Integer id;
 	private String name;
-	private Integer scoreOutOfTen;
+	private Integer score_out_of_ten;
 }

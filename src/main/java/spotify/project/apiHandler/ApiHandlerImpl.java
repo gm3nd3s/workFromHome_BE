@@ -26,7 +26,6 @@ public class ApiHandlerImpl implements ApiHandler{
 		cityDto.setName(city);
 		cityDto.getCategories().stream().map(categoryDto -> CategoryConverter.convertToCategory(categoryDto));
 		return cityDto;
-
 	}
 
 }
