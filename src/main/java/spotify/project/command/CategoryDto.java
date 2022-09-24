@@ -11,7 +11,6 @@ import java.io.Serializable;
  * A DTO for the {@link Category} entity
  */
 @Data
-@Builder
 public class CategoryDto implements Serializable {
 
 	@Id

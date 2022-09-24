@@ -30,4 +30,8 @@ public interface UserService {
     void deleteUser(String username);
 
     void deleteRole(String roleType);
+
+    void addCityToUser(String username, String cityName);
+
+    void addCityToUserListOfCities(String username, String cityName);
 }

@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import spotify.project.command.CityConverter;
 import spotify.project.command.CreateUserDto;
 import spotify.project.command.UserConverter;
 import spotify.project.command.UserDto;
@@ -27,6 +28,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class UserServiceImpl implements UserService {
 
+    private final CityService cityService;
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
@@ -158,7 +160,17 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAll().stream().map(UserConverter::convertEntityToUserDto).collect(Collectors.toList());
     }
 
+    @Override
+    public void addCityToUser(String username, String cityName) {
+        User user = findUserByUsername(username);
+        user.setLivingCity(CityConverter.convertCreateCityDtoToCity(cityService.getCityDto(cityName)));
+        userRepository.save(user);
+    }
 
-
-
+    @Override
+    public void addCityToUserListOfCities(String username, String cityName) {
+        User user = findUserByUsername(username);
+        user.getCities().add(CityConverter.convertCreateCityDtoToCity(cityService.getCityDto(cityName)));
+        userRepository.save(user);
+    }
 }
