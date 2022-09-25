@@ -5,16 +5,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import spotify.project.command.CreateCityDto;
-import spotify.project.services.CityService;
+import spotify.project.services.CityServiceImpl;
 import spotify.project.services.CountryService;
 
 @RestController
 @RequestMapping("/api")
 public class ApiController {
 
-	private CityService cityService;
+	private CityServiceImpl cityService;
 	private CountryService countryService;
-	public ApiController( CityService cityService) {
+	public ApiController( CityServiceImpl cityService) {
 		this.cityService = cityService;
 
 	}
