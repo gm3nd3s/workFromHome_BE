@@ -3,9 +3,11 @@ package spotify.project.controllers;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import spotify.project.command.CityDto;
+import spotify.project.command.CityDtoWithCategory;
 import spotify.project.command.CreateUserDto;
 import spotify.project.command.UserDto;
 import spotify.project.models.City;
@@ -39,7 +41,7 @@ public class UserController {
 
     @GetMapping("/{username}")
     public ResponseEntity<UserDto> getUserByUsername(@PathVariable String username){
-        return ResponseEntity.ok().body(userService.findByUserName(username));
+        return ResponseEntity.ok().body(userService.findUserDtoByUsername(username));
     }
 
     @PostMapping("/user")
@@ -87,6 +89,25 @@ public class UserController {
         return userService.getAllCitiesInDb();
     }
 
+    @GetMapping("/allCities/{username}")
+    public ResponseEntity<List<CityDto>> getAllCitiesVisitedByUser(@PathVariable String username){
+        return new ResponseEntity<>(userService.getAllCitiesVisitedByUser(username), HttpStatus.OK);
+    }
+
+    @GetMapping("/livingCity/{username}")
+    public ResponseEntity<CityDto> getUserLivingCity(@PathVariable String username){
+        return new ResponseEntity<>(userService.getUserLivingCity(username), HttpStatus.OK);
+    }
+
+    @GetMapping("/citiesOrdered")
+    public ResponseEntity<List<CityDto>> getCitiesInDBOrdered(){
+        return new ResponseEntity<>(userService.getCitiesInDBOrdered(), HttpStatus.OK);
+    }
+
+    @GetMapping("cities/{category}/{score}")
+    public ResponseEntity<List<CityDtoWithCategory>> getCitiesWithCategoryBiggerThan(@PathVariable String category, @PathVariable Integer score){
+        return new ResponseEntity<>(userService.getCitiesWithCategoryBiggerThan(category, score), HttpStatus.OK);
+    }
     @GetMapping("/cityDB/{cityName}")
     public CityDto getCityDtoByName(@PathVariable String cityName){ //criar DTO para enviar com info toda
         return userService.getCityDtoByName(cityName);

@@ -1,6 +1,8 @@
 package spotify.project.services;
 
+import org.springframework.http.ResponseEntity;
 import spotify.project.command.CityDto;
+import spotify.project.command.CityDtoWithCategory;
 import spotify.project.command.CreateCityDto;
 import spotify.project.models.City;
 
@@ -15,4 +17,8 @@ public interface CityService {
     public City findCityByCityName(String cityName);
 
     public void saveCityOnRepository(City city);
+
+	List<CityDto> getCitiesInDBOrdered();
+
+    List<CityDtoWithCategory> getCitiesWithCategoryBiggerThan(String category, Integer score);
 }
