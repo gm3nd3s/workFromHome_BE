@@ -2,6 +2,7 @@ package spotify.project.services;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import spotify.project.command.*;
@@ -26,7 +27,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class UserServiceImpl implements UserService {
 
-    private final CityServiceImpl cityService;
+    private final CityService cityService;
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
@@ -135,7 +136,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto findByUserName(String username) {
+    public UserDto findUserDtoByUsername(String username) {
         log.info("fetching {}", username );
         return UserConverter.convertEntityToUserDto(findUserByUsername(username));
     }
@@ -179,6 +180,32 @@ public class UserServiceImpl implements UserService {
         cityService.saveCityOnRepository(city);
         return UserConverter.convertEntityToUserDto(user);
 
+    }
+
+    @Override
+    public List<CityDto> getAllCitiesVisitedByUser(String username) {
+
+        return findUserByUsername(username)
+                .getCitiesVisited()
+                .stream()
+                .map(CityConverter::convertToDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public CityDto getUserLivingCity(String username) {
+        return CityConverter
+                .convertToDto(findUserByUsername(username).getLivingCity());
+    }
+
+    @Override
+    public List<CityDto> getCitiesInDBOrdered() {
+        return cityService.getCitiesInDBOrdered();
+    }
+
+    @Override
+    public List<CityDtoWithCategory> getCitiesWithCategoryBiggerThan(String category, Integer score) {
+        return cityService.getCitiesWithCategoryBiggerThan(category, score);
     }
 
 

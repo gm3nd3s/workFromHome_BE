@@ -2,9 +2,13 @@ package spotify.project.command;
 
 import spotify.project.models.Category;
 import spotify.project.models.City;
+import spotify.project.repositories.CityRepository;
 
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static io.lettuce.core.KillArgs.Builder.id;
 
 public class CityConverter {
 
@@ -14,6 +18,22 @@ public class CityConverter {
 			.name(city.getName())
 			.avg_score_0_to_10(city.getAvg_score_0_to_10())
 			.build();
+	}
+
+	public static CityDtoWithCategory convertToDtoWithCategory(City city, String categoryName){
+		CityDtoWithCategory cityDtoWithCategory = CityDtoWithCategory.builder()
+				.name(city.getName())
+				.avg_score_0_to_10(city.getAvg_score_0_to_10())
+				.categoryDto(CategoryConverter
+						.convertToDto(city
+								.getCategoriesList()
+								.stream()
+								.filter(category1 -> category1.getName().equals(categoryName))
+								.findFirst()
+								.get()))
+				.build();
+
+		return cityDtoWithCategory;
 	}
 
 

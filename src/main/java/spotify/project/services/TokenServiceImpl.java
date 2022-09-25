@@ -56,7 +56,7 @@ public class TokenServiceImpl implements TokenService {
                 JWTVerifier verifier = JWT.require(algorithm).build();
                 DecodedJWT decodedJWT = verifier.verify(refreshToken);
                 String username = decodedJWT.getSubject(); //dá me username
-                User user = UserConverter.convertUserDtoToEntity(userService.findByUserName(username));
+                User user = UserConverter.convertUserDtoToEntity(userService.findUserDtoByUsername(username));
                 String access_token = JWT.create()
                     .withSubject(user.getUsername())
                     .withExpiresAt(new Date(System.currentTimeMillis() + 20 * 60 * 1000))

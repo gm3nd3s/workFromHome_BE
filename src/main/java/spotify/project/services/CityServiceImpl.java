@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import spotify.project.apiHandler.ApiHandler;
 import spotify.project.command.CityConverter;
 import spotify.project.command.CityDto;
+import spotify.project.command.CityDtoWithCategory;
 import spotify.project.command.CreateCityDto;
 import spotify.project.models.City;
 import spotify.project.repositories.CategoryRepository;
@@ -57,5 +58,23 @@ public class CityServiceImpl implements CityService {
 
 	public void saveCityOnRepository(City city) {
 		cityRepository.save(city);
+	}
+
+	@Override
+	public List<CityDto> getCitiesInDBOrdered() {
+		return cityRepository
+				.getCitiesOrdered()
+				.stream()
+				.map(CityConverter::convertToDto)
+				.collect(Collectors.toList());
+	}
+
+	@Override
+	public List<CityDtoWithCategory> getCitiesWithCategoryBiggerThan(String category, Integer score) {
+		return cityRepository
+				.getCitiesWithCategoryBiggerThan(category, score)
+				.stream()
+				.map(city -> CityConverter.convertToDtoWithCategory(city, category))
+				.collect(Collectors.toList());
 	}
 }
