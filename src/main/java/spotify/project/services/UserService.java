@@ -56,6 +56,8 @@ public interface UserService {
 
     List<CityDtoWithCategory> getCitiesWithCategoryBiggerThan(String category, Integer score);
 
+	UserDto addScoreToCityVisited(String username, String cityName, Integer score);
+
    /* void addCityToUser(String username, String cityName);
 
     void addCityToUserListOfCities(String username, String cityName);*/

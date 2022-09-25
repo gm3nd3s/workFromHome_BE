@@ -15,6 +15,7 @@ import spotify.project.repositories.UserRepository;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -209,7 +210,14 @@ public class UserServiceImpl implements UserService {
 		return cityService.getCitiesWithCategoryBiggerThan(category, score);
 	}
 
-
+	@Override
+	public UserDto addScoreToCityVisited(String username, String cityName, Integer score) {
+		User user = findUserByUsername(username);
+		City city = cityService.findCityByCityName(cityName);
+		city.setUserScore(score);
+		userRepository.save(user);
+		return UserConverter.convertEntityToUserDto(user);
+	}
 
   /*  @Override
     public void addCityToUser(String username, String cityName) {

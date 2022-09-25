@@ -1,8 +1,6 @@
 package spotify.project.services;
 
-import spotify.project.command.CityDto;
-import spotify.project.command.CityDtoWithCategory;
-import spotify.project.command.CreateCityDto;
+import spotify.project.command.*;
 import spotify.project.models.City;
 
 import java.util.List;
@@ -23,4 +21,8 @@ public interface CityService {
 	List<CityDto> getCitiesInDBOrdered();
 
 	List<CityDtoWithCategory> getCitiesWithCategoryBiggerThan(String category, Integer score);
+
+	List<CityUrbanAreaDto> getCities();
+
+	List<String> getCitiesWithMinimumScoreForCategory(String category, Integer minimumScore);
 }

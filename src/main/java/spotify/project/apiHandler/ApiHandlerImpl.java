@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import spotify.project.command.CreateCategoryDto;
 import spotify.project.command.CreateCityDto;
+import spotify.project.command.UrbanAreaDto;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,6 +14,7 @@ public class ApiHandlerImpl implements ApiHandler {
 
 	private static final String GET_CITY_THROUGH_NAME = "https://api.teleport.org/api/urban_areas/slug:{city}/scores/";
 	private static final String GET_COUNTRIES = "https://api.teleport.org/api/countries/";
+	private static final String GET_CITIES = "https://api.teleport.org/api/urban_areas/";
 	private final RestTemplate restTemplate = new RestTemplate();
 
 	@Override
@@ -29,5 +31,10 @@ public class ApiHandlerImpl implements ApiHandler {
 						.reduce(0, Integer::sum) / createCityDto.getCategories().size()
 		);
 		return createCityDto;
+	}
+
+	@Override
+	public UrbanAreaDto getCities() {
+		return restTemplate.getForObject(GET_CITIES, UrbanAreaDto.class);
 	}
 }

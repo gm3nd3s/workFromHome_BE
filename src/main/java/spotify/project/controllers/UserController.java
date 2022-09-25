@@ -3,7 +3,6 @@ package spotify.project.controllers;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import spotify.project.command.CityDto;
@@ -89,25 +88,26 @@ public class UserController {
 	}
 
 	@GetMapping("/allCities/{username}")
-    public ResponseEntity<List<CityDto>> getAllCitiesVisitedByUser(@PathVariable String username){
-        return new ResponseEntity<>(userService.getAllCitiesVisitedByUser(username), HttpStatus.OK);
-    }
+	public ResponseEntity<List<CityDto>> getAllCitiesVisitedByUser(@PathVariable String username) {
+		return new ResponseEntity<>(userService.getAllCitiesVisitedByUser(username), HttpStatus.OK);
+	}
 
-    @GetMapping("/livingCity/{username}")
-    public ResponseEntity<CityDto> getUserLivingCity(@PathVariable String username){
-        return new ResponseEntity<>(userService.getUserLivingCity(username), HttpStatus.OK);
-    }
+	@GetMapping("/livingCity/{username}")
+	public ResponseEntity<CityDto> getUserLivingCity(@PathVariable String username) {
+		return new ResponseEntity<>(userService.getUserLivingCity(username), HttpStatus.OK);
+	}
 
-    @GetMapping("/citiesOrdered")
-    public ResponseEntity<List<CityDto>> getCitiesInDBOrdered(){
-        return new ResponseEntity<>(userService.getCitiesInDBOrdered(), HttpStatus.OK);
-    }
+	@GetMapping("/citiesOrdered")
+	public ResponseEntity<List<CityDto>> getCitiesInDBOrdered() {
+		return new ResponseEntity<>(userService.getCitiesInDBOrdered(), HttpStatus.OK);
+	}
 
-    @GetMapping("cities/{category}/{score}")
-    public ResponseEntity<List<CityDtoWithCategory>> getCitiesWithCategoryBiggerThan(@PathVariable String category, @PathVariable Integer score){
-        return new ResponseEntity<>(userService.getCitiesWithCategoryBiggerThan(category, score), HttpStatus.OK);
-    }
-    @GetMapping("/cityDB/{cityName}")
+	@GetMapping("cities/{category}/{score}")
+	public ResponseEntity<List<CityDtoWithCategory>> getCitiesWithCategoryBiggerThan(@PathVariable String category, @PathVariable Integer score) {
+		return new ResponseEntity<>(userService.getCitiesWithCategoryBiggerThan(category, score), HttpStatus.OK);
+	}
+
+	@GetMapping("/cityDB/{cityName}")
 	public CityDto getCityDtoByName(@PathVariable String cityName) { //criar DTO para enviar com info toda
 		return userService.getCityDtoByName(cityName);
 	}
@@ -115,6 +115,15 @@ public class UserController {
 	@PutMapping("/visited/{username}/{cityName}")
 	public ResponseEntity<?> addCityToUser(@PathVariable String username, @PathVariable String cityName) {
 		return new ResponseEntity<>(userService.addCityToUser(username, cityName), HttpStatus.OK);
+	}
+
+	@PutMapping("/visited/{username}/{cityName}/{score}")
+	public ResponseEntity<?> addScoreToCityVisited(
+			@PathVariable String username,
+			@PathVariable String cityName,
+			@PathVariable Integer score
+	) {
+		return new ResponseEntity<>(userService.addScoreToCityVisited(username, cityName, score), HttpStatus.OK);
 	}
 
 	@PutMapping("/livingCity/{username}/{cityName}")
