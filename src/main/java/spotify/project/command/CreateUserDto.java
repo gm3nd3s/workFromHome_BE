@@ -13,11 +13,11 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @Builder
 public class CreateUserDto {
-    @NotBlank(message = "name can not be blank")
-    public String name;
-    @NotBlank(message = "username can not be blank")
-    public String username;
-    @Size(min = 6, max = 16, message = "password must be between 6 to 16 characters")
-    public String password;
+	@NotBlank(message = "name can not be blank")
+	public String name;
+	@NotBlank(message = "username can not be blank")
+	public String username;
+	@Size(min = 6, max = 16, message = "password must be between 6 to 16 characters")
+	public String password;
 
 }

@@ -16,11 +16,8 @@ import java.util.stream.Collectors;
 @Service
 public class CityServiceImpl implements CityService {
 
-
-
 	private final ApiHandler apiHandler;
 	private final CityRepository cityRepository;
-
 	private final CategoryRepository categoryRepository;
 
 	public CityServiceImpl(ApiHandler apiHandler, CityRepository cityRepository, CategoryRepository categoryRepository) {
@@ -32,20 +29,21 @@ public class CityServiceImpl implements CityService {
 	public CreateCityDto getCityDto(String cityName) {
 		CreateCityDto createCityDto = apiHandler.cityDto(cityName);
 		saveCity(createCityDto);
-		return createCityDto;}
+		return createCityDto;
+	}
 
 	public void saveCity(CreateCityDto createCityDto) {
 		cityRepository
-			.save(CityConverter
-				.convertCreateCityDtoToCity(createCityDto));
+				.save(CityConverter
+						.convertCreateCityDtoToCity(createCityDto));
 	}
 
 	public List<CityDto> getAllCitiesInDB() {
 		return cityRepository
-			.findAll()
-			.stream()
-			.map(CityConverter::convertToDto)
-			.collect(Collectors.toList());
+				.findAll()
+				.stream()
+				.map(CityConverter::convertToDto)
+				.collect(Collectors.toList());
 	}
 
 	public CityDto getCityDtoByName(String name) {

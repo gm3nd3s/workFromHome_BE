@@ -13,7 +13,7 @@ public class ApiController {
 
 	private CityServiceImpl cityService;
 
-	public ApiController( CityServiceImpl cityService) {
+	public ApiController(CityServiceImpl cityService) {
 		this.cityService = cityService;
 	}
 

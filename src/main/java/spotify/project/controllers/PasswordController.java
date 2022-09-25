@@ -19,18 +19,18 @@ import static spotify.project.utils.PrintErrors.printErrors;
 @RequestMapping("/api/user")
 public class PasswordController {
 
-    private PasswordService passwordService;
+	private PasswordService passwordService;
 
-    public PasswordController(PasswordService passwordService) {
-        this.passwordService = passwordService;
-    }
+	public PasswordController(PasswordService passwordService) {
+		this.passwordService = passwordService;
+	}
 
-    @PutMapping("/changepassword")
-    public ResponseEntity<?> changePassword(@Valid @RequestBody PasswordDto passwordDto, BindingResult bindingResult, HttpServletRequest request) {
-        if (bindingResult.hasErrors()) {
-            return printErrors(bindingResult);
-        }
-        passwordService.changePassword(passwordDto, request);
-        return ResponseEntity.ok("Password changed successfully");
-    }
+	@PutMapping("/changepassword")
+	public ResponseEntity<?> changePassword(@Valid @RequestBody PasswordDto passwordDto, BindingResult bindingResult, HttpServletRequest request) {
+		if (bindingResult.hasErrors()) {
+			return printErrors(bindingResult);
+		}
+		passwordService.changePassword(passwordDto, request);
+		return ResponseEntity.ok("Password changed successfully");
+	}
 }

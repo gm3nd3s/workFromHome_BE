@@ -1,6 +1,5 @@
 package spotify.project.command;
 
-import lombok.Builder;
 import lombok.Data;
 
 import java.util.List;
@@ -9,7 +8,7 @@ import java.util.List;
 public class CreateCityDto {
 
 	private String name;
-	private Integer avg_score_0_to_10;
+	private Integer average_score;
 	private List<CreateCategoryDto> categories;
 	private String summary;
 }

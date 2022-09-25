@@ -20,40 +20,40 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    private final UserDetailsService userDetailsService;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+	private final UserDetailsService userDetailsService;
+	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    private static final String[] AUTH_LIST = {
-            // -- swagger ui
-            "/v3/api-docs/**",
-            "/swagger-ui/**",
-            "/swagger-ui.html"
-    };
+	private static final String[] AUTH_LIST = {
+			// -- swagger ui
+			"/v3/api-docs/**",
+			"/swagger-ui/**",
+			"/swagger-ui.html"
+	};
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
-    }
+	@Override
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
+	}
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationManagerBean());
-        customAuthenticationFilter.setFilterProcessesUrl("/login");
-        http.csrf().disable();
-        http.sessionManagement().sessionCreationPolicy(STATELESS);
-        http.authorizeRequests().antMatchers(AUTH_LIST).permitAll();
-        http.authorizeRequests()
-            .antMatchers("/api/**", "/api/countries/", "/api/login/**", "/api/user/**", "api/refreshToken/**").permitAll()
-            .antMatchers("/api/findByUsername/**", "api/role/save/**").hasAnyAuthority("OWNER")
-            .anyRequest().authenticated();
-        http.addFilter(customAuthenticationFilter);
-        http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+		CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationManagerBean());
+		customAuthenticationFilter.setFilterProcessesUrl("/login");
+		http.csrf().disable();
+		http.sessionManagement().sessionCreationPolicy(STATELESS);
+		http.authorizeRequests().antMatchers(AUTH_LIST).permitAll();
+		http.authorizeRequests()
+				.antMatchers("/api/**", "/api/countries/", "/api/login/**", "/api/user/**", "api/refreshToken/**").permitAll()
+				.antMatchers("/api/findByUsername/**", "api/role/save/**").hasAnyAuthority("OWNER")
+				.anyRequest().authenticated();
+		http.addFilter(customAuthenticationFilter);
+		http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
 
-    }
+	}
 
-    @Bean
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception{
-        return super.authenticationManagerBean();
-    }
+	@Bean
+	@Override
+	public AuthenticationManager authenticationManagerBean() throws Exception {
+		return super.authenticationManagerBean();
+	}
 }

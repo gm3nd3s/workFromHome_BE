@@ -1,6 +1,6 @@
 package spotify.project.command;
 
-import lombok.Builder;
+import com.fasterxml.jackson.annotation.JsonGetter;
 import lombok.Data;
 
 
@@ -8,5 +8,10 @@ import lombok.Data;
 public class CreateCategoryDto {
 
 	private String name;
-	private Integer score_out_of_10;
+	private Integer score;
+
+	@JsonGetter("score_out_of_10")
+	public Integer getScore() {
+		return score;
+	}
 }

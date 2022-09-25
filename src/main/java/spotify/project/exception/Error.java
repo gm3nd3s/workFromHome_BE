@@ -8,8 +8,8 @@ import java.util.Date;
 @Data
 @Builder
 public class Error {
-    private Date timestamp;
-    private String message;
-    private String method;
-    private String path;
+	private Date timestamp;
+	private String message;
+	private String method;
+	private String path;
 }

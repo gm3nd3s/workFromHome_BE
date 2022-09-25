@@ -10,7 +10,6 @@ import spotify.project.command.CityDto;
 import spotify.project.command.CityDtoWithCategory;
 import spotify.project.command.CreateUserDto;
 import spotify.project.command.UserDto;
-import spotify.project.models.City;
 import spotify.project.models.Role;
 import spotify.project.services.TokenService;
 import spotify.project.services.UserService;
@@ -26,70 +25,70 @@ import static spotify.project.utils.PrintErrors.printErrors;
 @RestController
 @RequestMapping("/api")
 public class UserController {
-    TokenService tokenService;
-    UserService userService;
+	TokenService tokenService;
+	UserService userService;
 
-    public UserController(UserService userService, TokenService tokenService) {
-        this.userService = userService;
-        this.tokenService = tokenService;
-    }
+	public UserController(UserService userService, TokenService tokenService) {
+		this.userService = userService;
+		this.tokenService = tokenService;
+	}
 
-    @GetMapping("/users")
-    public ResponseEntity<List<UserDto>> getUsers(){
-        return new ResponseEntity<>(userService.getUsers(), HttpStatus.OK);
-    }
+	@GetMapping("/users")
+	public ResponseEntity<List<UserDto>> getUsers() {
+		return new ResponseEntity<>(userService.getUsers(), HttpStatus.OK);
+	}
 
-    @GetMapping("/{username}")
-    public ResponseEntity<UserDto> getUserByUsername(@PathVariable String username){
-        return ResponseEntity.ok().body(userService.findUserDtoByUsername(username));
-    }
+	@GetMapping("/{username}")
+	public ResponseEntity<UserDto> getUserByUsername(@PathVariable String username) {
+		return ResponseEntity.ok().body(userService.findUserDtoByUsername(username));
+	}
 
-    @PostMapping("/user")
-    public ResponseEntity<?> registerUser(@Valid @RequestBody CreateUserDto user, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-          return printErrors(bindingResult);
-        }
-        return new ResponseEntity<>(userService.registerUser(user), HttpStatus.CREATED);
-    }
+	@PostMapping("/user")
+	public ResponseEntity<?> registerUser(@Valid @RequestBody CreateUserDto user, BindingResult bindingResult) {
+		if (bindingResult.hasErrors()) {
+			return printErrors(bindingResult);
+		}
+		return new ResponseEntity<>(userService.registerUser(user), HttpStatus.CREATED);
+	}
 
-    @PostMapping("/role")
-    public ResponseEntity<Role> saveRole(@RequestBody Role role){
-        return new ResponseEntity<>(userService.saveRole(role), HttpStatus.CREATED);
-    }
+	@PostMapping("/role")
+	public ResponseEntity<Role> saveRole(@RequestBody Role role) {
+		return new ResponseEntity<>(userService.saveRole(role), HttpStatus.CREATED);
+	}
 
-    @PutMapping("/role={name}/user={username}")
-    public ResponseEntity<?> addRoleToUser(@PathVariable String name, @PathVariable String username){
-        return new ResponseEntity<>(userService.addRoleToUser(username,name), HttpStatus.OK);
-    }
+	@PutMapping("/role={name}/user={username}")
+	public ResponseEntity<?> addRoleToUser(@PathVariable String name, @PathVariable String username) {
+		return new ResponseEntity<>(userService.addRoleToUser(username, name), HttpStatus.OK);
+	}
 
-    @DeleteMapping("/delete/user={username}")
-    public void deleteUser(@PathVariable String username){
-        if(username == null){
-            throw new RuntimeException("You need to give a proper username");
-        }
-        userService.deleteUser(username);
-    }
+	@DeleteMapping("/delete/user={username}")
+	public void deleteUser(@PathVariable String username) {
+		if (username == null) {
+			throw new RuntimeException("You need to give a proper username");
+		}
+		userService.deleteUser(username);
+	}
 
 
-    @DeleteMapping("/delete/role={roleType}")
-    public void deleteRole(@PathVariable String roleType){
-        if(roleType == null){
-            throw new RuntimeException("You need to give a proper username");
-        }
-        userService.deleteRole(roleType);
-    }
+	@DeleteMapping("/delete/role={roleType}")
+	public void deleteRole(@PathVariable String roleType) {
+		if (roleType == null) {
+			throw new RuntimeException("You need to give a proper username");
+		}
+		userService.deleteRole(roleType);
+	}
 
-    @GetMapping("/refreshToken")
-    public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        tokenService.refreshToken(request, response);
-    }
+	@GetMapping("/refreshToken")
+	public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		tokenService.refreshToken(request, response);
+	}
 
-    @GetMapping("/allCities")
-    public List<CityDto> getAllCitiesInDB(){
-        return userService.getAllCitiesInDb();
-    }
+	@GetMapping("/allCities")
+	public List<CityDto> getAllCitiesInDB() {
+		return userService.getAllCitiesInDb();
+	}
 
-    @GetMapping("/allCities/{username}")
+	@GetMapping("/allCities/{username}")
     public ResponseEntity<List<CityDto>> getAllCitiesVisitedByUser(@PathVariable String username){
         return new ResponseEntity<>(userService.getAllCitiesVisitedByUser(username), HttpStatus.OK);
     }
@@ -109,17 +108,17 @@ public class UserController {
         return new ResponseEntity<>(userService.getCitiesWithCategoryBiggerThan(category, score), HttpStatus.OK);
     }
     @GetMapping("/cityDB/{cityName}")
-    public CityDto getCityDtoByName(@PathVariable String cityName){ //criar DTO para enviar com info toda
-        return userService.getCityDtoByName(cityName);
-    }
+	public CityDto getCityDtoByName(@PathVariable String cityName) { //criar DTO para enviar com info toda
+		return userService.getCityDtoByName(cityName);
+	}
 
-    @PutMapping("/visited/{username}/{cityName}")
-    public ResponseEntity<?> addCityToUser(@PathVariable String username, @PathVariable String cityName){
-        return new ResponseEntity<>(userService.addCityToUser(username,cityName), HttpStatus.OK);
-    }
+	@PutMapping("/visited/{username}/{cityName}")
+	public ResponseEntity<?> addCityToUser(@PathVariable String username, @PathVariable String cityName) {
+		return new ResponseEntity<>(userService.addCityToUser(username, cityName), HttpStatus.OK);
+	}
 
-    @PutMapping("/livingCity/{username}/{cityName}")
-    public ResponseEntity<?> addLivingCityToUser(@PathVariable String username, @PathVariable String cityName){
-        return new ResponseEntity<>(userService.addLivingCityToUser(username,cityName), HttpStatus.OK);
-    }
+	@PutMapping("/livingCity/{username}/{cityName}")
+	public ResponseEntity<?> addLivingCityToUser(@PathVariable String username, @PathVariable String cityName) {
+		return new ResponseEntity<>(userService.addLivingCityToUser(username, cityName), HttpStatus.OK);
+	}
 }

@@ -12,26 +12,26 @@ import java.util.Objects;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name="roles")
+@Table(name = "roles")
 @NoArgsConstructor
 public class Role {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false, unique = true, updatable = false)
-    private Long id;
-    @Column
-    private String roleType;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(nullable = false, unique = true, updatable = false)
+	private Long id;
+	@Column
+	private String roleType;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Role role = (Role) o;
-        return Objects.equals(id, role.id) && Objects.equals(roleType, role.roleType);
-    }
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Role role = (Role) o;
+		return Objects.equals(id, role.id) && Objects.equals(roleType, role.roleType);
+	}
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, roleType);
-    }
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, roleType);
+	}
 }
