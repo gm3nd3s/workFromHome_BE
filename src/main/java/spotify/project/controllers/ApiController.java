@@ -6,14 +6,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import spotify.project.command.CreateCityDto;
 import spotify.project.services.CityServiceImpl;
-import spotify.project.services.CountryService;
 
 @RestController
 @RequestMapping("/api")
 public class ApiController {
 
 	private CityServiceImpl cityService;
-	private CountryService countryService;
+
 	public ApiController( CityServiceImpl cityService) {
 		this.cityService = cityService;
 
@@ -24,9 +23,6 @@ public class ApiController {
 		return cityService.getCityDto(cityName);
 	}
 
-	/*@GetMapping(value = "/countries")
-	public CountriesDto getCountries(){
-		return countryService.getCountryDto();
-	}*/
+
 
 }
