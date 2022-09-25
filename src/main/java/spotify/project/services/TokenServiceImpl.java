@@ -41,7 +41,6 @@ public class TokenServiceImpl implements TokenService {
             JWTVerifier verifier = JWT.require(algorithm).build();
             DecodedJWT decodedJWT = verifier.verify(token);
             String username = decodedJWT.getSubject();
-
             return username;
         }
         return "@";
@@ -59,11 +58,11 @@ public class TokenServiceImpl implements TokenService {
                 String username = decodedJWT.getSubject(); //dá me username
                 User user = UserConverter.convertUserDtoToEntity(userService.findByUserName(username));
                 String access_token = JWT.create()
-                        .withSubject(user.getUsername())
-                        .withExpiresAt(new Date(System.currentTimeMillis() + 20 * 60 * 1000))
-                        .withIssuer(request.getRequestURL().toString())
-                        .withClaim("roles", user.getRoles().stream().map(Role::getRoleType).collect(Collectors.toList()))
-                        .sign(algorithm);
+                    .withSubject(user.getUsername())
+                    .withExpiresAt(new Date(System.currentTimeMillis() + 20 * 60 * 1000))
+                    .withIssuer(request.getRequestURL().toString())
+                    .withClaim("roles", user.getRoles().stream().map(Role::getRoleType).collect(Collectors.toList()))
+                    .sign(algorithm);
                 Map<String, String> tokens = new HashMap<>();
                 tokens.put("access_token", access_token);
                 tokens.put("refresh_token", refreshToken);

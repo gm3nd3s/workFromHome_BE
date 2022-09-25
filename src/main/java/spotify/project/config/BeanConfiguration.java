@@ -13,7 +13,6 @@ import spotify.project.services.UserService;
 @Configuration
 public class BeanConfiguration {
 
-
     @Bean
     CommandLineRunner run(UserService userService) {
         return args -> {
