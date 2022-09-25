@@ -37,16 +37,13 @@ public class UserServiceImpl implements UserService {
         if(userExists(user.getUsername())){
             throw new UserAlreadyExistsException();
         }
-
         log.info("Saving new user {} to database.", user.getUsername());
-
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-
         return UserConverter
-                .convertEntityToUserDto(userRepository.
-                        save(addRoleToUser(userRepository.
-                                save(UserConverter.
-                                        convertCreateUserDtoToEntity(user)).getName(), "USER")));
+            .convertEntityToUserDto(userRepository.
+                save(addRoleToUser(userRepository.
+                    save(UserConverter.
+                        convertCreateUserDtoToEntity(user)).getName(), "USER")));
     }
 
     @Override
@@ -60,19 +57,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User addRoleToUser(String username, String roleType) {
+        User user = findUserByUsername(username);
+        Role role = findRoleByRoleType(roleType);
 
-    User user = findUserByUsername(username);
-    Role role = findRoleByRoleType(roleType);
+        if(checkIfUserHasRole(user, role)){
+            throw new UserAlreadyHasThatRole();
+        }
 
-
-    if(checkIfUserHasRole(user, role)){
-        throw new UserAlreadyHasThatRole();
-    }
-
-    user.getRoles().add(role);
+        user.getRoles().add(role);
         log.info("adding role {} to user {}", roleType, username);
-    return userRepository.save(user);//supostamente como tenho o transactional nao preciso de fazer o save novamente.
-
+        return userRepository.save(user);//supostamente como tenho o transactional nao preciso de fazer o save novamente.
     }
     @Override
     public User findUserByUsername(String username){
@@ -85,7 +79,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean userExists(String username) {
-
         return userRepository.findByUsername(username).isPresent();
     }
 
@@ -107,7 +100,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public void createRoles() {
         List<Role> roles = roleRepository.findAll();
-
         if (roles.isEmpty()) {
             saveRole(new Role(null, "OWNER"));
             saveRole(new Role(null, "ADMIN"));
@@ -118,21 +110,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void createOwner() {
-            Optional<User> user = userRepository.findByUsername("owner");
-
-            if (user.isEmpty()) {
-                User newUser =
-                        User.builder()
-                                .name("owner")
-                                .username("owner")
-                                .roles(new ArrayList<>())
-                                .password(passwordEncoder.encode("owner123"))
-                                .build();
-                userRepository.save(newUser);
-                addRoleToUser("owner", "OWNER");
-
+        Optional<User> user = userRepository.findByUsername("owner");
+        if (user.isEmpty()) {
+            User newUser =
+                User.builder()
+                    .name("owner")
+                    .username("owner")
+                    .roles(new ArrayList<>())
+                    .password(passwordEncoder.encode("owner123"))
+                    .build();
+            userRepository.save(newUser);
+            addRoleToUser("owner", "OWNER");
         }
-
     }
 
     @Override
@@ -155,10 +144,10 @@ public class UserServiceImpl implements UserService {
     public List<UserDto> getUsers() {
         log.info("fetching all users");
         return userRepository
-                .findAll()
-                .stream()
-                .map(UserConverter::convertEntityToUserDto)
-                .collect(Collectors.toList());
+            .findAll()
+            .stream()
+            .map(UserConverter::convertEntityToUserDto)
+            .collect(Collectors.toList());
     }
 
     @Override
@@ -177,7 +166,6 @@ public class UserServiceImpl implements UserService {
         City city = cityService.findCityByCityName(cityName);
         user.getCitiesVisited().add(city);
         userRepository.save(user);
-
         return  UserConverter.convertEntityToUserDto(user);
     }
 
@@ -189,7 +177,6 @@ public class UserServiceImpl implements UserService {
         city.getUsers().add(user);
         userRepository.save(user);
         cityService.saveCityOnRepository(city);
-
         return UserConverter.convertEntityToUserDto(user);
 
     }

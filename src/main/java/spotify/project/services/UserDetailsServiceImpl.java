@@ -32,9 +32,9 @@ public class UserDetailsServiceImpl implements org.springframework.security.core
             log.info("User found in the database: {}", username);
         }
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();//adicionar/criar as autorizações que do user para depois adicionar ao User da UserDetails
-        user.getRoles()
+            user.getRoles()
                 .forEach(role -> authorities
-                        .add((new SimpleGrantedAuthority(role.getRoleType()))));
+                    .add((new SimpleGrantedAuthority(role.getRoleType()))));
 
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), authorities);
     }
