@@ -5,8 +5,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import spotify.project.command.CityDto;
 import spotify.project.command.CreateUserDto;
 import spotify.project.command.UserDto;
+import spotify.project.models.City;
 import spotify.project.models.Role;
 import spotify.project.services.TokenService;
 import spotify.project.services.UserService;
@@ -35,12 +37,12 @@ public class UserController {
         return new ResponseEntity<>(userService.getUsers(), HttpStatus.OK);
     }
 
-    @GetMapping("/findByUsername/{username}")//melhorar nomes, mais diretos, tipo logo {username}
+    @GetMapping("/{username}")
     public ResponseEntity<UserDto> getUserByUsername(@PathVariable String username){
         return ResponseEntity.ok().body(userService.findByUserName(username));
     }
 
-    @PostMapping("/user/register")
+    @PostMapping("/user")
     public ResponseEntity<?> registerUser(@Valid @RequestBody CreateUserDto user, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
           return printErrors(bindingResult);
@@ -48,7 +50,7 @@ public class UserController {
         return new ResponseEntity<>(userService.registerUser(user), HttpStatus.CREATED);
     }
 
-    @PostMapping("/role/save")
+    @PostMapping("/role")
     public ResponseEntity<Role> saveRole(@RequestBody Role role){
         return new ResponseEntity<>(userService.saveRole(role), HttpStatus.CREATED);
     }
@@ -77,8 +79,28 @@ public class UserController {
         userService.deleteRole(roleType);
     }
 
-    @GetMapping("/role/refreshToken")
+    @GetMapping("/refreshToken")
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
         tokenService.refreshToken(request, response);
+    }
+
+    @GetMapping("/allCities")
+    public List<CityDto> getAllCitiesInDB(){
+        return userService.getAllCitiesInDb();
+    }
+
+    @GetMapping("/cityDB/{cityName}")
+    public CityDto getCityDtoByName(@PathVariable String cityName){ //criar DTO para enviar com info toda
+        return userService.getCityDtoByName(cityName);
+    }
+
+    @PutMapping("/visited/{username}/{cityName}")
+    public ResponseEntity<?> addCityToUser(@PathVariable String username, @PathVariable String cityName){
+        return new ResponseEntity<>(userService.addCityToUser(username,cityName), HttpStatus.OK);
+    }
+
+    @PutMapping("/livingCity/{username}/{cityName}")
+    public ResponseEntity<?> addLivingCityToUser(@PathVariable String username, @PathVariable String cityName){
+        return new ResponseEntity<>(userService.addLivingCityToUser(username,cityName), HttpStatus.OK);
     }
 }

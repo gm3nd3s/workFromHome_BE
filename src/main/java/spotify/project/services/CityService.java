@@ -2,11 +2,16 @@ package spotify.project.services;
 
 import org.springframework.stereotype.Service;
 import spotify.project.apiHandler.ApiHandler;
+import spotify.project.command.CategoryConverter;
+import spotify.project.command.CityConverter;
 import spotify.project.command.CityDto;
-import spotify.project.command.CountryDto;
 import spotify.project.command.CreateCityDto;
+import spotify.project.models.City;
+import spotify.project.repositories.CategoryRepository;
+import spotify.project.repositories.CityRepository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CityService {
@@ -14,11 +19,45 @@ public class CityService {
 
 
 	private final ApiHandler apiHandler;
+	private final CityRepository cityRepository;
 
-	public CityService(ApiHandler apiHandler) {
+	private final CategoryRepository categoryRepository;
+
+	public CityService(ApiHandler apiHandler, CityRepository cityRepository, CategoryRepository categoryRepository) {
 		this.apiHandler = apiHandler;
+		this.cityRepository = cityRepository;
+		this.categoryRepository = categoryRepository;
 	}
 
 	public CreateCityDto getCityDto(String cityName) {
-		return apiHandler.cityDto(cityName);}
+		CreateCityDto createCityDto = apiHandler.cityDto(cityName);
+		saveCity(createCityDto);
+		return createCityDto;}
+
+	public void saveCity(CreateCityDto createCityDto) {
+		cityRepository
+				.save(CityConverter
+						.convertCreateCityDtoToCity(createCityDto));
+	}
+
+	public List<CityDto> getAllCitiesInDB() {
+		return cityRepository
+				.findAll()
+				.stream()
+				.map(CityConverter::convertToDto)
+				.collect(Collectors.toList());
+	}
+
+	public CityDto getCityDtoByName(String name) {
+		return CityConverter.convertToDto(cityRepository.findByName(name));
+	}
+
+	public City findCityByCityName(String cityName) {
+		return cityRepository.findByName(cityName);
+	}
+
+	public void saveCityOnRepository(City city) {
+		cityRepository.save(city);
+
+	}
 }

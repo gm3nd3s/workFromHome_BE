@@ -14,6 +14,8 @@ public class UserConverter {
             .username(user.getUsername())
             .password(user.getPassword())
             .roles(user.getRoles())
+            .citiesVisited(user.getCitiesVisited())
+            .livingCity(user.getLivingCity())
             .build();
 }
     public static User convertUserDtoToEntity(UserDto userDto){
@@ -22,6 +24,8 @@ public class UserConverter {
                 .name(userDto.getName())
                 .password(userDto.getPassword())
                 .roles(userDto.getRoles())
+                .citiesVisited(userDto.getCitiesVisited())
+                .livingCity(userDto.getLivingCity())
                 .build();
     }
     public static User convertCreateUserDtoToEntity(CreateUserDto createUserDto){

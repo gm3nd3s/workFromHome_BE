@@ -1,5 +1,6 @@
 package spotify.project.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,9 +20,15 @@ public class City {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String name;
+	private Integer avg_score_0_to_10;
 
-	@OneToMany
+	@OneToMany(cascade = {CascadeType.ALL},
+			mappedBy = "city")
+	@JsonIgnore
 	private List<Category> categoriesList;
-	private String sumary;
 
+	@OneToMany(cascade = {CascadeType.ALL},
+			mappedBy = "livingCity")
+	@JsonIgnore
+	private List<User> users;
 }

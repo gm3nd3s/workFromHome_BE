@@ -3,38 +3,40 @@ package spotify.project.command;
 import spotify.project.models.Category;
 import spotify.project.models.City;
 
+import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 public class CityConverter {
-	/*
+
 	public static CityDto convertToDto(City city) {
 		return CityDto.builder()
+				.id(city.getId())
 				.name(city.getName())
-				.categories(city
-						.getCategoriesList()
-						.stream()
-						.map(category -> CategoryConverter.convertToDto(category))
-						.toList())
-				.summary(city.getSumary())
+				.avg_score_0_to_10(city.getAvg_score_0_to_10())
 				.build();
 	}
 
-	 */
 
 	public static City convertCreateCityDtoToCity(CreateCityDto createCityDto) {
-		return City.builder()
+		City city = City.builder()
 				.name(createCityDto.getName())
-				.categoriesList(createCityDto
-						.getCategories()
-						.stream()
-						.map(categoryDto -> CategoryConverter.convertToCategory(categoryDto))
-						.toList())
-				.sumary(createCityDto.getSummary())
+				.avg_score_0_to_10(createCityDto.getAvg_score_0_to_10())
+				.categoriesList(new ArrayList<>())
 				.build();
+
+		createCityDto.getCategories()
+				.forEach(createCategoryDto -> city
+						.getCategoriesList()
+						.add(CategoryConverter.convertCreateCategoryDtoToCategory(createCategoryDto)));
+
+		city.getCategoriesList()
+				.forEach(category -> category.setCity(city));
+
+		return city;
 	}
 
 
-	public static City convertToCategory(CityDto cityDto) {
+	/*public static City convertCityDtoToCity(CityDto cityDto) {
 		return City.builder()
 				.name(cityDto.getName())
 				.categoriesList(cityDto
@@ -43,5 +45,5 @@ public class CityConverter {
 						.map(categoryDto -> CategoryConverter.convertToCategory(categoryDto))
 						.toList())
 				.build();
-	}
+	}*/
 }

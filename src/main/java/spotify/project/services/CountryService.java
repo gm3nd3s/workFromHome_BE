@@ -2,10 +2,6 @@ package spotify.project.services;
 
 import org.springframework.stereotype.Service;
 import spotify.project.apiHandler.ApiHandler;
-import spotify.project.command.CountriesDto;
-import spotify.project.command.CountryDto;
-
-import java.util.List;
 
 @Service
 public class CountryService {

@@ -4,11 +4,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import spotify.project.command.CityConverter;
-import spotify.project.command.CreateUserDto;
-import spotify.project.command.UserConverter;
-import spotify.project.command.UserDto;
+import spotify.project.command.*;
 import spotify.project.exception.*;
+import spotify.project.models.City;
 import spotify.project.models.Role;
 import spotify.project.models.User;
 import spotify.project.repositories.RoleRepository;
@@ -147,7 +145,6 @@ public class UserServiceImpl implements UserService {
         roleRepository.delete(findRoleByRoleType(roleType));
     }
 
-
     @Override
     public UserDto findByUserName(String username) {
         log.info("fetching {}", username );
@@ -157,20 +154,61 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserDto> getUsers() {
         log.info("fetching all users");
-        return userRepository.findAll().stream().map(UserConverter::convertEntityToUserDto).collect(Collectors.toList());
+        return userRepository
+                .findAll()
+                .stream()
+                .map(UserConverter::convertEntityToUserDto)
+                .collect(Collectors.toList());
     }
 
     @Override
+    public List<CityDto> getAllCitiesInDb() {
+        return cityService.getAllCitiesInDB();
+    }
+
+    @Override
+    public CityDto getCityDtoByName(String cityName) {
+        return cityService.getCityDtoByName(cityName);
+    }
+
+    @Override
+    public UserDto addCityToUser(String username, String cityName) {
+        User user = findUserByUsername(username);
+        City city = cityService.findCityByCityName(cityName);
+        user.getCitiesVisited().add(city);
+        userRepository.save(user);
+
+        return  UserConverter.convertEntityToUserDto(user);
+    }
+
+    @Override
+    public UserDto addLivingCityToUser(String username, String cityName) {
+        User user = findUserByUsername(username);
+        City city = cityService.findCityByCityName(cityName);
+        user.setLivingCity(city);
+        city.getUsers().add(user);
+        userRepository.save(user);
+        cityService.saveCityOnRepository(city);
+
+        return UserConverter.convertEntityToUserDto(user);
+
+    }
+
+
+
+  /*  @Override
     public void addCityToUser(String username, String cityName) {
         User user = findUserByUsername(username);
         user.setLivingCity(CityConverter.convertCreateCityDtoToCity(cityService.getCityDto(cityName)));
         userRepository.save(user);
     }
-
-    @Override
+*/
+  /*  @Override
     public void addCityToUserListOfCities(String username, String cityName) {
         User user = findUserByUsername(username);
         user.getCities().add(CityConverter.convertCreateCityDtoToCity(cityService.getCityDto(cityName)));
         userRepository.save(user);
     }
+
+   */
 }

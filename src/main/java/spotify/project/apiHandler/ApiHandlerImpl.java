@@ -26,10 +26,15 @@ public class ApiHandlerImpl implements ApiHandler{
 		Map<String, String> params = new HashMap<>();
 		params.put("city", city);
 
-		CreateCityDto cityDto = restTemplate.getForObject(GET_CITY_THREW_NAME, CreateCityDto.class, params);
-		cityDto.setName(city);
-		cityDto.getCategories().stream().map(categoryDto -> CategoryConverter.convertToCategory(categoryDto));
-		return cityDto;
+		CreateCityDto createCityDto = restTemplate.getForObject(GET_CITY_THREW_NAME, CreateCityDto.class, params);
+		createCityDto.setName(city);
+		createCityDto.setAvg_score_0_to_10(createCityDto
+				.getCategories()
+				.stream()
+				.map(CreateCategoryDto::getScore_out_of_10)
+				.reduce(0,(integer, integer2) -> integer + integer2)/17);
+
+		return createCityDto;
 
 
 	}

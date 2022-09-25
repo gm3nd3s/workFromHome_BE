@@ -1,8 +1,10 @@
 package spotify.project.services;
 
 
+import spotify.project.command.CityDto;
 import spotify.project.command.CreateUserDto;
 import spotify.project.command.UserDto;
+import spotify.project.models.City;
 import spotify.project.models.Role;
 import spotify.project.models.User;
 
@@ -31,7 +33,15 @@ public interface UserService {
 
     void deleteRole(String roleType);
 
-    void addCityToUser(String username, String cityName);
+    List<CityDto> getAllCitiesInDb();
 
-    void addCityToUserListOfCities(String username, String cityName);
+    CityDto getCityDtoByName(String cityName);
+
+    UserDto addCityToUser(String username, String cityName);
+
+    UserDto addLivingCityToUser(String username, String cityName);
+
+   /* void addCityToUser(String username, String cityName);
+
+    void addCityToUserListOfCities(String username, String cityName);*/
 }

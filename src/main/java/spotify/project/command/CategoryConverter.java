@@ -14,14 +14,14 @@ public class CategoryConverter {
 	public static Category convertCreateCategoryDtoToCategory(CreateCategoryDto creatCategoryDto) {
 		return Category.builder()
 				.name(creatCategoryDto.getName())
-				.score_out_of_ten(creatCategoryDto.getScoreOutOfTen())
+				.score_out_of_ten(creatCategoryDto.getScore_out_of_10())
 				.build();
 	}
 
-	public static Category convertToCategory(CategoryDto categoryDto) {
+	/*public static Category convertDtoToCategory(CategoryDto categoryDto) {
 		return Category.builder()
 				.name(categoryDto.getName())
 				.score_out_of_ten(categoryDto.getScore_out_of_10())
 				.build();
-	}
+	}*/
 }
