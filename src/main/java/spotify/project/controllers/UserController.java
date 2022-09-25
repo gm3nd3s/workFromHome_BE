@@ -65,7 +65,6 @@ public class UserController {
         if(username == null){
             throw new RuntimeException("You need to give a proper username");
         }
-
         userService.deleteUser(username);
     }
 
@@ -75,7 +74,6 @@ public class UserController {
         if(roleType == null){
             throw new RuntimeException("You need to give a proper username");
         }
-
         userService.deleteRole(roleType);
     }
 

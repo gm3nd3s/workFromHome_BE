@@ -14,15 +14,11 @@ public class PrintErrors {
 
     public static ResponseEntity<Map<String, String>> printErrors(BindingResult bindingResult) {
         Map<String, String> errors = new HashMap<>();
-
         bindingResult.getAllErrors().forEach(error -> {
             String fieldName = ((FieldError) error).getField();
-
             String errorMessage = error.getDefaultMessage();
-
             errors.put(fieldName, errorMessage);
         });
-
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 }

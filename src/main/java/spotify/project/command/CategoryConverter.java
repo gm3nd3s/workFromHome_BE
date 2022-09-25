@@ -13,9 +13,9 @@ public class CategoryConverter {
 */
 	public static Category convertCreateCategoryDtoToCategory(CreateCategoryDto creatCategoryDto) {
 		return Category.builder()
-				.name(creatCategoryDto.getName())
-				.score_out_of_ten(creatCategoryDto.getScore_out_of_10())
-				.build();
+			.name(creatCategoryDto.getName())
+			.score_out_of_ten(creatCategoryDto.getScore_out_of_10())
+			.build();
 	}
 
 	/*public static Category convertDtoToCategory(CategoryDto categoryDto) {

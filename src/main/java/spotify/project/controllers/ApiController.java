@@ -15,14 +15,10 @@ public class ApiController {
 
 	public ApiController( CityServiceImpl cityService) {
 		this.cityService = cityService;
-
 	}
 
 	@GetMapping("/city/{cityName}")
 	public CreateCityDto getCityDto(@PathVariable String cityName) {
 		return cityService.getCityDto(cityName);
 	}
-
-
-
 }

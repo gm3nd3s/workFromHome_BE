@@ -22,18 +22,15 @@ public class ApiHandlerImpl implements ApiHandler{
 
 	@Override
 	public CreateCityDto cityDto(String city){
-
 		Map<String, String> params = new HashMap<>();
 		params.put("city", city);
-
 		CreateCityDto createCityDto = restTemplate.getForObject(GET_CITY_THREW_NAME, CreateCityDto.class, params);
 		createCityDto.setName(city);
 		createCityDto.setAvg_score_0_to_10(createCityDto
-				.getCategories()
-				.stream()
-				.map(CreateCategoryDto::getScore_out_of_10)
-				.reduce(0,(integer, integer2) -> integer + integer2)/17);
-
+			.getCategories()
+			.stream()
+			.map(CreateCategoryDto::getScore_out_of_10)
+			.reduce(0,(integer, integer2) -> integer + integer2)/17);
 		return createCityDto;
 
 

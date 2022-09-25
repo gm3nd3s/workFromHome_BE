@@ -35,16 +35,16 @@ public class CityServiceImpl implements CityService {
 
 	public void saveCity(CreateCityDto createCityDto) {
 		cityRepository
-				.save(CityConverter
-						.convertCreateCityDtoToCity(createCityDto));
+			.save(CityConverter
+				.convertCreateCityDtoToCity(createCityDto));
 	}
 
 	public List<CityDto> getAllCitiesInDB() {
 		return cityRepository
-				.findAll()
-				.stream()
-				.map(CityConverter::convertToDto)
-				.collect(Collectors.toList());
+			.findAll()
+			.stream()
+			.map(CityConverter::convertToDto)
+			.collect(Collectors.toList());
 	}
 
 	public CityDto getCityDtoByName(String name) {
@@ -57,6 +57,5 @@ public class CityServiceImpl implements CityService {
 
 	public void saveCityOnRepository(City city) {
 		cityRepository.save(city);
-
 	}
 }
