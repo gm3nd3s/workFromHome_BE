@@ -32,8 +32,7 @@ public class CityServiceImpl implements CityService {
 	}
 
 	public void saveCity(CreateCityDto createCityDto) {
-		cityRepository
-				.save(CityConverter
+		saveCityOnRepository(CityConverter
 						.convertCreateCityDtoToCity(createCityDto));
 	}
 

@@ -3,6 +3,7 @@ package spotify.project.command;
 import spotify.project.models.User;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 
 public class UserConverter {
@@ -15,7 +16,7 @@ public class UserConverter {
 				.password(user.getPassword())
 				.roles(user.getRoles())
 				.citiesVisited(user.getCitiesVisited())
-				.livingCity(CityConverter.convertToDto(user.getLivingCity()))
+				.livingCity(user.getLivingCity())
 				.cityReview(user.getCityReview())
 				.build();
 	}
@@ -27,7 +28,7 @@ public class UserConverter {
 				.password(userDto.getPassword())
 				.roles(userDto.getRoles())
 				.citiesVisited(userDto.getCitiesVisited())
-				.livingCity(CityConverter.convertCityDtoToCity(userDto.getLivingCity()))
+				.livingCity(userDto.getLivingCity())
 				.cityReview(userDto.getCityReview())
 				.build();
 	}

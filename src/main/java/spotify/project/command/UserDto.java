@@ -20,6 +20,6 @@ public class UserDto {
 	private String password;
 	private List<Role> roles;
 	private List<City> citiesVisited;
-	private CityDto livingCity;
+	private City livingCity;
 	private List<Review> cityReview;
 }

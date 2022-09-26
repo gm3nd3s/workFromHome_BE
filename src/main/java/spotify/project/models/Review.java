@@ -19,6 +19,7 @@ public class Review {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	private String cityName;
 	private Integer scoreAverage;
 	private LocalDate localDate;
 
