@@ -15,7 +15,7 @@ public class UserConverter {
 				.password(user.getPassword())
 				.roles(user.getRoles())
 				.citiesVisited(user.getCitiesVisited())
-				.livingCity(user.getLivingCity())
+				.livingCity(CityConverter.convertToDto(user.getLivingCity()))
 				.cityReview(user.getCityReview())
 				.build();
 	}
@@ -27,7 +27,7 @@ public class UserConverter {
 				.password(userDto.getPassword())
 				.roles(userDto.getRoles())
 				.citiesVisited(userDto.getCitiesVisited())
-				.livingCity(userDto.getLivingCity())
+				.livingCity(CityConverter.convertCityDtoToCity(userDto.getLivingCity()))
 				.cityReview(userDto.getCityReview())
 				.build();
 	}

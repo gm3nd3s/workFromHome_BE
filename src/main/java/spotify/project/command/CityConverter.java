@@ -14,7 +14,7 @@ public class CityConverter {
 				.build();
 	}
 
-	public static CityDtoWithCategory convertToDtoWithCategory(City city, String categoryName) {
+	public static CityDtoWithCategory convertCityToDtoWithCategory(City city, String categoryName) {
 		CityDtoWithCategory cityDtoWithCategory = CityDtoWithCategory.builder()
 				.name(city.getName())
 				.avg_score_0_to_10(city.getAverageScore())
@@ -50,14 +50,11 @@ public class CityConverter {
 	}
 
 
-	/*public static City convertCityDtoToCity(CityDto cityDto) {
+	public static City convertCityDtoToCity(CityDto cityDto) {
 		return City.builder()
+				.id(cityDto.getId())
 				.name(cityDto.getName())
-				.categoriesList(cityDto
-						.getCategories()
-						.stream()
-						.map(categoryDto -> CategoryConverter.convertToCategory(categoryDto))
-						.toList())
+				.averageScore(cityDto.getAverageScore())
 				.build();
-	}*/
+	}
 }

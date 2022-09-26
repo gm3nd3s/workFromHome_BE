@@ -1,5 +1,6 @@
 package spotify.project.command;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Data;
 import spotify.project.models.City;
@@ -10,7 +11,7 @@ import spotify.project.models.City;
 @Data
 @Builder
 public class CityDto {
-
+	@JsonIgnore
 	private Integer id;
 	private String name;
 	private Integer averageScore;

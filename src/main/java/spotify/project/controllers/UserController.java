@@ -5,10 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import spotify.project.command.CityDto;
-import spotify.project.command.CityDtoWithCategory;
-import spotify.project.command.CreateUserDto;
-import spotify.project.command.UserDto;
+import spotify.project.command.*;
 import spotify.project.models.Review;
 import spotify.project.models.Role;
 import spotify.project.services.TokenService;
@@ -118,17 +115,9 @@ public class UserController {
 		return new ResponseEntity<>(userService.addCityToUser(username, cityName), HttpStatus.OK);
 	}
 
-	@PutMapping("/visited/{username}/{cityName}/{score}")
-	public ResponseEntity<?> addScoreToCityVisited(
-			@PathVariable String username,
-			@PathVariable String cityName,
-			@PathVariable Integer score
-	) {
-		return new ResponseEntity<>(userService.addScoreToCityVisited(username, cityName, score), HttpStatus.OK);
-	}
 
 	@PostMapping("/review/{username}/{cityName}")
-	public ResponseEntity<?> addReviewToCityVisited(@RequestBody Review review, @PathVariable String username, @PathVariable String cityName) {
+	public ResponseEntity<?> addReviewToCityVisited(@RequestBody CreateReviewDto review, @PathVariable String username, @PathVariable String cityName) {
 		return new ResponseEntity<>(userService.addReviewToCityVisited(review, username, cityName), HttpStatus.OK);
 	}
 

@@ -12,6 +12,7 @@ import java.util.List;
 @Data
 @Builder
 public class UserDto {
+	@JsonIgnore
 	private Long id;
 	private String name;
 	private String username;
@@ -19,6 +20,6 @@ public class UserDto {
 	private String password;
 	private List<Role> roles;
 	private List<City> citiesVisited;
-	private City livingCity;
+	private CityDto livingCity;
 	private List<Review> cityReview;
 }
