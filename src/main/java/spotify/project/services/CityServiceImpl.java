@@ -81,8 +81,8 @@ public class CityServiceImpl implements CityService {
 	}
 
 	@Override
-	public List<String> getCitiesWithMinimumScoreForCategory(String category, Integer minimumScore) {
-		ArrayList<String> cities = new ArrayList<>();
+	public List<CityDtoWithCategory> getCitiesWithMinimumScoreForCategory(String category, Integer minimumScore) {
+		ArrayList<CityDtoWithCategory> cities = new ArrayList<>();
 		apiHandler.getCities().getLinks().getCities().forEach(city -> {
 			String cityName = city.getName();//getHref().substring(city.getHref().lastIndexOf(":")+1,city.getHref().lastIndexOf("/"));
 			CreateCityDto cityDto = apiHandler.cityDto(cityName);
@@ -94,7 +94,7 @@ public class CityServiceImpl implements CityService {
 					.orElseThrow();
 			Integer score = categoryDto.getScore();
 			if (score >= minimumScore) {
-				cities.add(cityName);
+				cities.add(CityConverter.convertToDtoWithCategory(CityConverter.convertCreateCityDtoToCity(cityDto), category));
 			}
 		});
 		return cities;

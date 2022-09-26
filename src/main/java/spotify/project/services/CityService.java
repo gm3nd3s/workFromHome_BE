@@ -24,5 +24,5 @@ public interface CityService {
 
 	List<CityUrbanAreaDto> getCities();
 
-	List<String> getCitiesWithMinimumScoreForCategory(String category, Integer minimumScore);
+	List<CityDtoWithCategory> getCitiesWithMinimumScoreForCategory(String category, Integer minimumScore);
 }

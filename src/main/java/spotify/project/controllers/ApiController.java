@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import spotify.project.command.CityDtoWithCategory;
 import spotify.project.command.CityUrbanAreaDto;
 import spotify.project.command.CreateCityDto;
 import spotify.project.services.CityServiceImpl;
@@ -32,8 +33,8 @@ public class ApiController {
 		return cityService.getCities();
 	}
 
-	@GetMapping("/citas/{category}/{minimum_score}")
-	public ResponseEntity<List<String>> getCitiesWithMinimumScoreForCategory(
+	@GetMapping("/citiesFromApi/{category}/{minimum_score}")
+	public ResponseEntity<List<CityDtoWithCategory>> getCitiesWithMinimumScoreForCategory(
 			@PathVariable("category") String category,
 			@PathVariable("minimum_score") Integer minimumScore
 	) {
