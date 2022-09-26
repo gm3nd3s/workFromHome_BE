@@ -32,11 +32,11 @@ public class ApiController {
 		return cityService.getCities();
 	}
 
-	@GetMapping("/cities/{category}/{minimum_score}")
+	@GetMapping("/citas/{category}/{minimum_score}")
 	public ResponseEntity<List<String>> getCitiesWithMinimumScoreForCategory(
 			@PathVariable("category") String category,
-			@PathVariable("minimum_score") String minimumScore
+			@PathVariable("minimum_score") Integer minimumScore
 	) {
-		return new ResponseEntity<>(cityService.getCitiesWithMinimumScoreForCategory(category, Integer.valueOf(minimumScore)), HttpStatus.OK);
+		return new ResponseEntity<>(cityService.getCitiesWithMinimumScoreForCategory(category, minimumScore), HttpStatus.OK);
 	}
 }
