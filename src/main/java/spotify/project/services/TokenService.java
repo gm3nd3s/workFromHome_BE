@@ -6,7 +6,7 @@ import java.io.IOException;
 
 public interface TokenService {
 
-	public String getUsernameFromToken(HttpServletRequest request);
+	String getUsernameFromToken(HttpServletRequest request);
 
-	public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException;
+	void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException;
 }

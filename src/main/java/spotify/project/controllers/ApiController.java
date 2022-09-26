@@ -24,13 +24,13 @@ public class ApiController {
 	}
 
 	@GetMapping("/city/{cityName}")
-	public CreateCityDto getCityDto(@PathVariable String cityName) {
-		return cityService.getCityDto(cityName);
+	public ResponseEntity<CreateCityDto> getCityDto(@PathVariable String cityName) {
+		return new ResponseEntity<>(cityService.getCityDto(cityName), HttpStatus.OK);
 	}
 
 	@GetMapping("/cities")
-	public List<CityUrbanAreaDto> getCities() {
-		return cityService.getCities();
+	public ResponseEntity<List<CityUrbanAreaDto>> getCities() {
+		return new ResponseEntity<>(cityService.getCities(), HttpStatus.OK);
 	}
 
 	@GetMapping("/citiesFromApi/{category}/{minimum_score}")

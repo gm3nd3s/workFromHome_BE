@@ -32,4 +32,11 @@ public class City {
 			mappedBy = "livingCity")
 	@JsonIgnore
 	private List<User> users;
+
+	@OneToMany (
+			cascade = {CascadeType.ALL},
+			orphanRemoval = true,
+			mappedBy = "city")
+	@JsonIgnore
+	private List<Review> review;
 }
