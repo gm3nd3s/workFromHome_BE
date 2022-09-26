@@ -14,7 +14,6 @@ import java.util.Map;
 public class ApiHandlerImpl implements ApiHandler {
 
 	private static final String GET_CITY_THROUGH_NAME = "https://api.teleport.org/api/urban_areas/slug:{city}/scores/";
-	private static final String GET_COUNTRIES = "https://api.teleport.org/api/countries/";
 	private static final String GET_CITIES = "https://api.teleport.org/api/urban_areas/";
 	private final RestTemplate restTemplate = new RestTemplate();
 

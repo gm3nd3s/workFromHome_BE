@@ -222,6 +222,7 @@ public class UserServiceImpl implements UserService {
 		Review review1 = ReviewConverter.convertCreateReviewDtoToEntity(review);
 		review1.setUser(user);
 		review1.setCity(city);
+		review1.setCityName(cityName);
 		review1.setLocalDate(LocalDate.now());
 		reviewService.saveReview(review1);
 

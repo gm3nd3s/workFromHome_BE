@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 @Data
 @Builder
@@ -39,4 +40,6 @@ public class City {
 			mappedBy = "city")
 	@JsonIgnore
 	private List<Review> review;
+
+
 }
