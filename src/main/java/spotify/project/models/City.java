@@ -20,7 +20,8 @@ public class City {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String name;
-	private Integer avg_score_0_to_10;
+	private Integer averageScore;
+	private Integer userScore;
 
 	@OneToMany(cascade = {CascadeType.ALL},
 			mappedBy = "city")

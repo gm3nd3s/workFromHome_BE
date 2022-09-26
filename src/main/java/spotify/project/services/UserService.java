@@ -6,42 +6,47 @@ import spotify.project.command.CityDto;
 import spotify.project.command.CityDtoWithCategory;
 import spotify.project.command.CreateUserDto;
 import spotify.project.command.UserDto;
-import spotify.project.models.City;
 import spotify.project.models.Role;
 import spotify.project.models.User;
 
 import java.util.List;
 
 public interface UserService {
-    UserDto registerUser(CreateUserDto user);
-    Role saveRole(Role role);
-    User addRoleToUser(String username, String roleType);
-    UserDto findUserDtoByUsername(String username);
-    List<UserDto> getUsers();
+	UserDto registerUser(CreateUserDto user);
 
-    boolean checkIfUserHasRole(User user, Role role);
+	Role saveRole(Role role);
 
-    void createRoles();
+	User addRoleToUser(String username, String roleType);
 
-    void createOwner();
+	UserDto findUserDtoByUsername(String username);
 
-    User findUserByUsername(String username);
-    Role findRoleByRoleType(String roleType);
+	List<UserDto> getUsers();
 
-    boolean userExists(String username);
-    boolean roleExists(String roleType);
+	boolean checkIfUserHasRole(User user, Role role);
 
-    void deleteUser(String username);
+	void createRoles();
 
-    void deleteRole(String roleType);
+	void createOwner();
 
-    List<CityDto> getAllCitiesInDb();
+	User findUserByUsername(String username);
 
-    CityDto getCityDtoByName(String cityName);
+	Role findRoleByRoleType(String roleType);
 
-    UserDto addCityToUser(String username, String cityName);
+	boolean userExists(String username);
 
-    UserDto addLivingCityToUser(String username, String cityName);
+	boolean roleExists(String roleType);
+
+	void deleteUser(String username);
+
+	void deleteRole(String roleType);
+
+	List<CityDto> getAllCitiesInDb();
+
+	CityDto getCityDtoByName(String cityName);
+
+	UserDto addCityToUser(String username, String cityName);
+
+	UserDto addLivingCityToUser(String username, String cityName);
 
     List<CityDto> getAllCitiesVisitedByUser(String username);
 
@@ -50,6 +55,8 @@ public interface UserService {
     List<CityDto> getCitiesInDBOrdered();
 
     List<CityDtoWithCategory> getCitiesWithCategoryBiggerThan(String category, Integer score);
+
+	UserDto addScoreToCityVisited(String username, String cityName, Integer score);
 
    /* void addCityToUser(String username, String cityName);
 

@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import spotify.project.models.Category;
 
-import javax.persistence.Id;
 import java.io.Serializable;
 
 /**
@@ -20,8 +19,4 @@ public class CategoryDto implements Serializable {
 
 	private String name;
 	private Integer score_out_of_10;
-
-
-
-
 }
