@@ -1,5 +1,6 @@
 package spotify.project.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -36,5 +37,6 @@ public class User {
 	@ManyToOne
 	private City livingCity;
 
-
+	@OneToMany (cascade = {CascadeType.ALL}, mappedBy = "user")
+	private List<Review> cityReview;
 }

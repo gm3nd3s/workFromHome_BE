@@ -9,6 +9,7 @@ import spotify.project.command.CityDto;
 import spotify.project.command.CityDtoWithCategory;
 import spotify.project.command.CreateUserDto;
 import spotify.project.command.UserDto;
+import spotify.project.models.Review;
 import spotify.project.models.Role;
 import spotify.project.services.TokenService;
 import spotify.project.services.UserService;
@@ -124,6 +125,11 @@ public class UserController {
 			@PathVariable Integer score
 	) {
 		return new ResponseEntity<>(userService.addScoreToCityVisited(username, cityName, score), HttpStatus.OK);
+	}
+
+	@PostMapping("/review/{username}/{cityName}")
+	public ResponseEntity<?> addReviewToCityVisited(@RequestBody Review review, @PathVariable String username, @PathVariable String cityName) {
+		return new ResponseEntity<>(userService.addReviewToCityVisited(review, username, cityName), HttpStatus.OK);
 	}
 
 	@PutMapping("/livingCity/{username}/{cityName}")

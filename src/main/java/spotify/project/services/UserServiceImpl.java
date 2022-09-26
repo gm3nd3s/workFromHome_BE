@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import spotify.project.command.*;
 import spotify.project.exception.*;
 import spotify.project.models.City;
+import spotify.project.models.Review;
 import spotify.project.models.Role;
 import spotify.project.models.User;
 import spotify.project.repositories.RoleRepository;
@@ -15,7 +16,6 @@ import spotify.project.repositories.UserRepository;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -31,6 +31,8 @@ public class UserServiceImpl implements UserService {
 	private final UserRepository userRepository;
 	private final RoleRepository roleRepository;
 	private final PasswordEncoder passwordEncoder;
+
+	private final ReviewService reviewService;
 
 
 	@Override
@@ -217,6 +219,24 @@ public class UserServiceImpl implements UserService {
 		city.setUserScore(score);
 		userRepository.save(user);
 		return UserConverter.convertEntityToUserDto(user);
+	}
+
+	@Override
+	public Review addReviewToCityVisited(Review review, String username, String cityName) {
+		User user = findUserByUsername(username);
+		City city = cityService.findCityByCityName(cityName);
+		Review review1 = reviewService.saveReview(review);
+
+//		review1.setUser(user);
+//		review1.setCity(city);
+//		reviewService.saveReview(review1);
+
+		user.getCityReview().add(review1);
+		city.getReview().add(review1);
+		userRepository.save(user);
+		cityService.saveCityOnRepository(city);
+
+		return review1;
 	}
 
   /*  @Override

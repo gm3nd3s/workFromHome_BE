@@ -16,6 +16,7 @@ public class UserConverter {
 				.roles(user.getRoles())
 				.citiesVisited(user.getCitiesVisited())
 				.livingCity(user.getLivingCity())
+				.cityReview(user.getCityReview())
 				.build();
 	}
 
@@ -27,6 +28,7 @@ public class UserConverter {
 				.roles(userDto.getRoles())
 				.citiesVisited(userDto.getCitiesVisited())
 				.livingCity(userDto.getLivingCity())
+				.cityReview(userDto.getCityReview())
 				.build();
 	}
 
