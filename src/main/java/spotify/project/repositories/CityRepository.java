@@ -10,7 +10,7 @@ import java.util.List;
 public interface CityRepository extends JpaRepository<City, Integer> {
     City findByName(String name);
 
-    @Query(value = "SELECT c FROM City c order by avg_score_0_to_10 desc")
+    @Query(value = "SELECT c FROM City c order by average_score desc")
     public List<City> getCitiesOrdered();
 
     @Query(value = "SELECT ci, c FROM City ci JOIN ci.categoriesList c WHERE c.name = :name AND c.score_out_of_ten > :score_out_of_ten order by score_out_of_ten desc")

@@ -3,16 +3,16 @@ package spotify.project.command;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Data;
-import spotify.project.models.City;
 
-/**
- * A DTO for the {@link City} entity
- */
+import java.time.LocalDate;
+
 @Data
 @Builder
-public class CityDto {
+public class ReviewDto {
+
 	@JsonIgnore
 	private Integer id;
-	private String name;
-	private Integer averageScore;
+	private String cityName;
+	private Integer scoreAverage;
+	private LocalDate localDate;
 }

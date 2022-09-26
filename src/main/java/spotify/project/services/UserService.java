@@ -1,10 +1,7 @@
 package spotify.project.services;
 
 
-import spotify.project.command.CityDto;
-import spotify.project.command.CityDtoWithCategory;
-import spotify.project.command.CreateUserDto;
-import spotify.project.command.UserDto;
+import spotify.project.command.*;
 import spotify.project.models.Review;
 import spotify.project.models.Role;
 import spotify.project.models.User;
@@ -56,9 +53,7 @@ public interface UserService {
 
     List<CityDtoWithCategory> getCitiesWithCategoryBiggerThan(String category, Integer score);
 
-	UserDto addScoreToCityVisited(String username, String cityName, Integer score);
-
-	Review addReviewToCityVisited(Review review, String username, String cityName);
+	ReviewDto addReviewToCityVisited(CreateReviewDto review, String username, String cityName);
 
    /* void addCityToUser(String username, String cityName);
 

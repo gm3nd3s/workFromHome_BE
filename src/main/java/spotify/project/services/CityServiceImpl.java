@@ -71,7 +71,7 @@ public class CityServiceImpl implements CityService {
 		return cityRepository
 				.getCitiesWithCategoryBiggerThan(category, score)
 				.stream()
-				.map(city -> CityConverter.convertToDtoWithCategory(city, category))
+				.map(city -> CityConverter.convertCityToDtoWithCategory(city, category))
 				.collect(Collectors.toList());
 	}
 
@@ -88,13 +88,13 @@ public class CityServiceImpl implements CityService {
 			CreateCityDto cityDto = apiHandler.cityDto(cityName);
 			CreateCategoryDto categoryDto = cityDto
 					.getCategories()
-					.stream()
+					.parallelStream()
 					.filter(cat -> category.equalsIgnoreCase(cat.getName()))
 					.findFirst()
 					.orElseThrow();
 			Integer score = categoryDto.getScore();
 			if (score >= minimumScore) {
-				cities.add(CityConverter.convertToDtoWithCategory(CityConverter.convertCreateCityDtoToCity(cityDto), category));
+				cities.add(CityConverter.convertCityToDtoWithCategory(CityConverter.convertCreateCityDtoToCity(cityDto), category));
 			}
 		});
 		return cities;

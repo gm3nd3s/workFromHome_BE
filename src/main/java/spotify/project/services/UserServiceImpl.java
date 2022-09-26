@@ -14,7 +14,9 @@ import spotify.project.repositories.RoleRepository;
 import spotify.project.repositories.UserRepository;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -213,30 +215,17 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserDto addScoreToCityVisited(String username, String cityName, Integer score) {
+	public ReviewDto addReviewToCityVisited(CreateReviewDto review, String username, String cityName) {
+
 		User user = findUserByUsername(username);
 		City city = cityService.findCityByCityName(cityName);
-		city.setUserScore(score);
-		userRepository.save(user);
-		return UserConverter.convertEntityToUserDto(user);
-	}
+		Review review1 = ReviewConverter.convertCreateReviewDtoToEntity(review);
+		review1.setUser(user);
+		review1.setCity(city);
+		review1.setLocalDate(LocalDate.now());
+		reviewService.saveReview(review1);
 
-	@Override
-	public Review addReviewToCityVisited(Review review, String username, String cityName) {
-		User user = findUserByUsername(username);
-		City city = cityService.findCityByCityName(cityName);
-		Review review1 = reviewService.saveReview(review);
-
-//		review1.setUser(user);
-//		review1.setCity(city);
-//		reviewService.saveReview(review1);
-
-		user.getCityReview().add(review1);
-		city.getReview().add(review1);
-		userRepository.save(user);
-		cityService.saveCityOnRepository(city);
-
-		return review1;
+		return ReviewConverter.convertEntityToReviewDto(review1);
 	}
 
   /*  @Override
