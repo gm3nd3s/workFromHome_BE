@@ -84,7 +84,7 @@ public class CityServiceImpl implements CityService {
 	public List<String> getCitiesWithMinimumScoreForCategory(String category, Integer minimumScore) {
 		ArrayList<String> cities = new ArrayList<>();
 		apiHandler.getCities().getLinks().getCities().forEach(city -> {
-			String cityName = city.getName();
+			String cityName = city.getName();//getHref().substring(city.getHref().lastIndexOf(":")+1,city.getHref().lastIndexOf("/"));
 			CreateCityDto cityDto = apiHandler.cityDto(cityName);
 			CreateCategoryDto categoryDto = cityDto
 					.getCategories()

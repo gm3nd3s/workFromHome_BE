@@ -7,6 +7,7 @@ import spotify.project.command.CreateCityDto;
 import spotify.project.command.UrbanAreaDto;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 @Component
@@ -19,8 +20,13 @@ public class ApiHandlerImpl implements ApiHandler {
 
 	@Override
 	public CreateCityDto cityDto(String city) {
+
+		String city2 = city.replaceAll(" ", "-").toLowerCase(Locale.ROOT).replaceAll("[,.]", "");
+		if (city2.equalsIgnoreCase("galway")){
+			city2 = "gaillimh";
+		}
 		Map<String, String> params = new HashMap<>();
-		params.put("city", city);
+		params.put("city", city2);
 		CreateCityDto createCityDto = restTemplate.getForObject(GET_CITY_THROUGH_NAME, CreateCityDto.class, params);
 		createCityDto.setName(city);
 		createCityDto.setAverage_score(
