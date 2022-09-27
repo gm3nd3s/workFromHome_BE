@@ -69,7 +69,7 @@ public class CityServiceImpl implements CityService {
 	public List<CityDtoWithCategory> getCitiesWithCategoryBiggerThan(String category, Integer score) {
 		return cityRepository
 				.getCitiesWithCategoryBiggerThan(category, score)
-				.stream()
+				.parallelStream()
 				.map(city -> CityConverter.convertCityToDtoWithCategory(city, category))
 				.collect(Collectors.toList());
 	}
