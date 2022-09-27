@@ -228,20 +228,4 @@ public class UserServiceImpl implements UserService {
 
 		return ReviewConverter.convertEntityToReviewDto(review1);
 	}
-
-  /*  @Override
-    public void addCityToUser(String username, String cityName) {
-        User user = findUserByUsername(username);
-        user.setLivingCity(CityConverter.convertCreateCityDtoToCity(cityService.getCityDto(cityName)));
-        userRepository.save(user);
-    }
-*/
-  /*  @Override
-    public void addCityToUserListOfCities(String username, String cityName) {
-        User user = findUserByUsername(username);
-        user.getCities().add(CityConverter.convertCreateCityDtoToCity(cityService.getCityDto(cityName)));
-        userRepository.save(user);
-    }
-
-   */
 }
