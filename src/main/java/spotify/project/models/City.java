@@ -22,7 +22,6 @@ public class City {
 	private Integer id;
 	private String name;
 	private Integer averageScore;
-	private Integer userScore;
 
 	@OneToMany(cascade = {CascadeType.ALL},
 			mappedBy = "city")

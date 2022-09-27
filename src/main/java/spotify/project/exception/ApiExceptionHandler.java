@@ -17,7 +17,7 @@ public class ApiExceptionHandler {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ApiExceptionHandler.class);
 
-	@ExceptionHandler(value = {UserNotFoundException.class, RoleNotFoundException.class})
+	@ExceptionHandler(value = {UserNotFoundException.class, RoleNotFoundException.class, CityNotFoundEXception.class, NullException.class})
 	public ResponseEntity<Error> dealWithNotFound(Exception exception, HttpServletRequest request) {
 
 		return new ResponseEntity<>(Error.builder()
@@ -29,7 +29,7 @@ public class ApiExceptionHandler {
 	}
 
 	@ExceptionHandler(value = {UserAlreadyExistsException.class, RoleAlreadyExistsException.class,
-			UserAlreadyHasThatRole.class})
+			UserAlreadyHasThatRole.class, CityAlreadyExistsException.class})
 	public ResponseEntity<Error> dealWithAlreadyExists(Exception exception, HttpServletRequest request) {
 
 		return new ResponseEntity<>(Error.builder()

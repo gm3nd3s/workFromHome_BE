@@ -1,6 +1,7 @@
 package spotify.project.command;
 
 import spotify.project.models.City;
+import spotify.project.services.CityService;
 
 import java.util.ArrayList;
 
@@ -14,7 +15,7 @@ public class CityConverter {
 				.build();
 	}
 
-	public static CityDtoWithCategory convertCityToDtoWithCategory(City city, String categoryName) {
+	public static CityDtoWithCategory convertToDtoWithCategory(City city, String categoryName) {
 		CityDtoWithCategory cityDtoWithCategory = CityDtoWithCategory.builder()
 				.name(city.getName())
 				.avg_score_0_to_10(city.getAverageScore())
@@ -49,10 +50,8 @@ public class CityConverter {
 		return city;
 	}
 
-
 	public static City convertCityDtoToCity(CityDto cityDto) {
 		return City.builder()
-				.id(cityDto.getId())
 				.name(cityDto.getName())
 				.averageScore(cityDto.getAverageScore())
 				.build();

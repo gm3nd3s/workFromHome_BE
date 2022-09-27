@@ -1,10 +1,8 @@
 package spotify.project.exception;
 
-public final class ErrorMessages {
+public final class Messages {
 
-	private ErrorMessages() {
-	}
-
+	public static final String NULL_EXCEPTION = "Input cannot be null.";
 	public static final String USER_NOT_FOUND = "User not found";
 	public static final String ROLE_NOT_FOUND = "Role not found";
 	public static final String INVALID_USER = "Invalid user input";
@@ -17,5 +15,10 @@ public final class ErrorMessages {
 	public static final String ALREADY_LOGGED_IN = "Already logged in.";
 	public static final String INVALID_PASSWORD_CHANGE_REQUEST = "Password change failed, check if the new password and confirm new password are equal.";
 	public static final String INVALID_ASSERT_AUTHORITIES = "User has already this authority";
+	public static final String NOT_BLANK = " cannot be blank.";
+	public static final String PASSWORD_SIZE = "password must be between 6 to 16 characters.";
+	public static final String SCORE_SIZE = "score must be between 0 and 10.";
 
+	public static final String CITY_NOT_FOUND = "City not found in our Database. Use instead localhost:8080/api/city/{cityName}.";
+	public static final String CITY_ALREADY_EXISTS = "This city already exists on your visited list.";
 }

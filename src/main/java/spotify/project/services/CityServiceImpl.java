@@ -3,6 +3,7 @@ package spotify.project.services;
 import org.springframework.stereotype.Service;
 import spotify.project.apiHandler.ApiHandler;
 import spotify.project.command.*;
+import spotify.project.exception.CityNotFoundEXception;
 import spotify.project.models.City;
 import spotify.project.repositories.CategoryRepository;
 import spotify.project.repositories.CityRepository;
@@ -27,6 +28,9 @@ public class CityServiceImpl implements CityService {
 
 	public CreateCityDto getCityDto(String cityName) {
 		CreateCityDto createCityDto = apiHandler.cityDto(cityName);
+		if (checkCityOnDatabase(cityName)) {
+			return createCityDto;
+		}
 		saveCity(createCityDto);
 		return createCityDto;
 	}
@@ -34,6 +38,10 @@ public class CityServiceImpl implements CityService {
 	public void saveCity(CreateCityDto createCityDto) {
 		saveCityOnRepository(CityConverter
 						.convertCreateCityDtoToCity(createCityDto));
+	}
+
+	public boolean checkCityOnDatabase(String cityName) {
+		return cityRepository.findByName(cityName).isPresent();
 	}
 
 	public List<CityDto> getAllCitiesInDB() {
@@ -45,11 +53,11 @@ public class CityServiceImpl implements CityService {
 	}
 
 	public CityDto getCityDtoByName(String name) {
-		return CityConverter.convertToDto(cityRepository.findByName(name));
+		return CityConverter.convertToDto(cityRepository.findByName(name).orElseThrow());
 	}
 
 	public City findCityByCityName(String cityName) {
-		return cityRepository.findByName(cityName);
+		return cityRepository.findByName(cityName).orElseThrow(CityNotFoundEXception::new);
 	}
 
 	public void saveCityOnRepository(City city) {
@@ -70,7 +78,7 @@ public class CityServiceImpl implements CityService {
 		return cityRepository
 				.getCitiesWithCategoryBiggerThan(category, score)
 				.parallelStream()
-				.map(city -> CityConverter.convertCityToDtoWithCategory(city, category))
+				.map(city -> CityConverter.convertToDtoWithCategory(city, category))
 				.collect(Collectors.toList());
 	}
 
@@ -93,7 +101,7 @@ public class CityServiceImpl implements CityService {
 					.orElseThrow();
 			Integer score = categoryDto.getScore();
 			if (score >= minimumScore) {
-				cities.add(CityConverter.convertCityToDtoWithCategory(CityConverter.convertCreateCityDtoToCity(cityDto), category));
+				cities.add(CityConverter.convertToDtoWithCategory(CityConverter.convertCreateCityDtoToCity(cityDto), category));
 			}
 		});
 		return cities;

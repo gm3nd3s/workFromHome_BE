@@ -1,6 +1,7 @@
 package spotify.project.command;
 
 import lombok.Data;
+import spotify.project.exception.Messages;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -10,9 +11,9 @@ public class PasswordDto {
 
 	@NotBlank
 	private String oldPassword;
-	@Size(min = 6, max = 16, message = "password must be between 6 to 16 characters")
+	@Size(min = 6, max = 16, message = Messages.PASSWORD_SIZE)
 	private String newPassword;
-	@Size(min = 6, max = 16, message = "password must be between 6 to 16 characters")
+	@Size(min = 6, max = 16, message =  Messages.PASSWORD_SIZE)
 	private String newPasswordConfirm;
 }
 
