@@ -21,4 +21,5 @@ public final class Messages {
 
 	public static final String CITY_NOT_FOUND = "City not found in our Database. Use instead localhost:8080/api/city/{cityName}.";
 	public static final String CITY_ALREADY_EXISTS = "This city already exists on your visited list.";
+	public static final String REVIEW_ALREADY_EXISTS = "You already made a review. You can update your review on localhost:8080/api/{city}/review";
 }

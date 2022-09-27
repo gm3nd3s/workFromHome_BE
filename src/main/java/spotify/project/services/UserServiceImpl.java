@@ -16,7 +16,6 @@ import spotify.project.repositories.UserRepository;
 import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -228,8 +227,13 @@ public class UserServiceImpl implements UserService {
 	public ReviewDto addReviewToCityVisited(CreateReviewDto review, String username, String cityName) {
 
 		User user = findUserByUsername(username);
+		if (checkReviewAlreadyExists(user, cityName)) {
+			throw new ReviewAlreadyExistsException();
+		}
+
 		City city = cityService.findCityByCityName(cityName);
 		Review review1 = ReviewConverter.convertCreateReviewDtoToEntity(review);
+
 		review1.setUser(user);
 		review1.setCity(city);
 		review1.setCityName(cityName);
@@ -237,5 +241,23 @@ public class UserServiceImpl implements UserService {
 		reviewService.saveReview(review1);
 
 		return ReviewConverter.convertEntityToReviewDto(review1);
+	}
+
+	@Override
+	public ReviewDto updateReview(CreateReviewDto createReviewDto, String cityName, String user) {
+		User user1 = findUserByUsername(user);
+		Review review = user1.getCityReview().stream().filter(review1 -> cityName.equalsIgnoreCase(review1.getCityName())).findFirst().get();
+		review.setScoreAverage(createReviewDto.getScoreAverage());
+		review.setLocalDate(createReviewDto.getLocalDate());
+		reviewService.saveReview(review);
+		userRepository.save(user1);
+		return ReviewConverter.convertEntityToReviewDto(review);
+	}
+
+	public boolean checkReviewAlreadyExists(User user, String cityName) {
+		if(user.getCityReview().size() == 0) {
+			return false;
+		}
+		return user.getCityReview().stream().map(review1 -> review1.getCityName().equals(cityName)).findFirst().get();
 	}
 }

@@ -29,7 +29,7 @@ public class ApiExceptionHandler {
 	}
 
 	@ExceptionHandler(value = {UserAlreadyExistsException.class, RoleAlreadyExistsException.class,
-			UserAlreadyHasThatRole.class, CityAlreadyExistsException.class})
+			UserAlreadyHasThatRole.class, CityAlreadyExistsException.class, ReviewAlreadyExistsException.class})
 	public ResponseEntity<Error> dealWithAlreadyExists(Exception exception, HttpServletRequest request) {
 
 		return new ResponseEntity<>(Error.builder()
