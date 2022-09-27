@@ -248,7 +248,7 @@ public class UserServiceImpl implements UserService {
 		User user1 = findUserByUsername(user);
 		Review review = user1.getCityReview().stream().filter(review1 -> cityName.equalsIgnoreCase(review1.getCityName())).findFirst().get();
 		review.setScoreAverage(createReviewDto.getScoreAverage());
-		review.setLocalDate(createReviewDto.getLocalDate());
+		review.setLocalDate(LocalDate.now());
 		reviewService.saveReview(review);
 		userRepository.save(user1);
 		return ReviewConverter.convertEntityToReviewDto(review);

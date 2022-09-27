@@ -129,7 +129,7 @@ public class UserController {
 		return new ResponseEntity<>(userService.addReviewToCityVisited(review, username, cityName), HttpStatus.OK);
 	}
 
-	@PostMapping("/updateReview/{cityName}/{user}")
+	@PutMapping("/updateReview/{cityName}/{user}")
 	public ResponseEntity<?> updateReview(@Valid @RequestBody CreateReviewDto createReviewDto,BindingResult bindingResult, @PathVariable String cityName, @PathVariable String user) {
 		if (bindingResult.hasErrors()) {
 			return printErrors(bindingResult);
