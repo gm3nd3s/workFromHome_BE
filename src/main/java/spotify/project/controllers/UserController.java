@@ -7,6 +7,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import spotify.project.command.*;
 import spotify.project.exception.NullException;
+import spotify.project.models.City;
 import spotify.project.models.Role;
 import spotify.project.services.TokenService;
 import spotify.project.services.UserService;
@@ -126,6 +127,14 @@ public class UserController {
 			return printErrors(bindingResult);
 		}
 		return new ResponseEntity<>(userService.addReviewToCityVisited(review, username, cityName), HttpStatus.OK);
+	}
+
+	@PostMapping("/updateReview/{cityName}/{user}")
+	public ResponseEntity<?> updateReview(@Valid @RequestBody CreateReviewDto createReviewDto,BindingResult bindingResult, @PathVariable String cityName, @PathVariable String user) {
+		if (bindingResult.hasErrors()) {
+			return printErrors(bindingResult);
+		}
+		return new ResponseEntity<>(userService.updateReview(createReviewDto, cityName, user), HttpStatus.OK);
 	}
 
 	@PutMapping("/livingCity/{username}/{cityName}")
