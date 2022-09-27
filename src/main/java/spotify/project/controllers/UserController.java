@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import spotify.project.command.*;
-import spotify.project.models.Review;
+import spotify.project.exception.NullException;
 import spotify.project.models.Role;
 import spotify.project.services.TokenService;
 import spotify.project.services.UserService;
@@ -61,7 +61,7 @@ public class UserController {
 	@DeleteMapping("/delete/user={username}")
 	public void deleteUser(@PathVariable String username) {
 		if (username == null) {
-			throw new RuntimeException("You need to give a proper username");
+			throw new NullException();
 		}
 		userService.deleteUser(username);
 	}
@@ -70,7 +70,7 @@ public class UserController {
 	@DeleteMapping("/delete/role={roleType}")
 	public void deleteRole(@PathVariable String roleType) {
 		if (roleType == null) {
-			throw new RuntimeException("You need to give a proper username");
+			throw new NullException();
 		}
 		userService.deleteRole(roleType);
 	}
@@ -117,7 +117,14 @@ public class UserController {
 
 
 	@PostMapping("/review/{username}/{cityName}")
-	public ResponseEntity<?> addReviewToCityVisited(@RequestBody CreateReviewDto review, @PathVariable String username, @PathVariable String cityName) {
+	public ResponseEntity<?> addReviewToCityVisited(@Valid
+													@RequestBody CreateReviewDto review,
+													BindingResult bindingResult,
+													@PathVariable String username,
+													@PathVariable String cityName) {
+		if (bindingResult.hasErrors()) {
+			return printErrors(bindingResult);
+		}
 		return new ResponseEntity<>(userService.addReviewToCityVisited(review, username, cityName), HttpStatus.OK);
 	}
 

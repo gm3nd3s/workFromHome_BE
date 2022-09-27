@@ -71,7 +71,7 @@ public class UserServiceImpl implements UserService {
 
 		user.getRoles().add(role);
 		log.info("adding role {} to user {}", roleType, username);
-		return userRepository.save(user);//supostamente como tenho o transactional nao preciso de fazer o save novamente.
+		return userRepository.save(user);
 	}
 
 	@Override
@@ -171,10 +171,20 @@ public class UserServiceImpl implements UserService {
 	public UserDto addCityToUser(String username, String cityName) {
 		User user = findUserByUsername(username);
 		City city = cityService.findCityByCityName(cityName);
+		if (checkCityInVisitedList(city, user)) {
+			throw new CityAlreadyExistsException();
+		}
 		user.getCitiesVisited().add(city);
 		userRepository.save(user);
 		return UserConverter.convertEntityToUserDto(user);
 	}
+
+	public boolean checkCityInVisitedList(City city, User user) {
+		if(user.getCitiesVisited().size() == 0){
+			return false;}
+		return user.getCitiesVisited().stream().map(city1 -> city1.equals(city)).findFirst().get();
+	}
+
 
 	@Override
 	public UserDto addLivingCityToUser(String username, String cityName) {

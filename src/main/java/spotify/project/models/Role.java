@@ -1,5 +1,6 @@
 package spotify.project.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,6 +19,7 @@ public class Role {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(nullable = false, unique = true, updatable = false)
+	@JsonIgnore
 	private Long id;
 	@Column
 	private String roleType;

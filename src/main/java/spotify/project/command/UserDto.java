@@ -19,7 +19,7 @@ public class UserDto {
 	@JsonIgnore
 	private String password;
 	private List<Role> roles;
-	private List<City> citiesVisited;
+	private List<CityDto> citiesVisited;
 	private City livingCity;
-	private List<Review> cityReview;
+	private List<ReviewDto> cityReview;
 }

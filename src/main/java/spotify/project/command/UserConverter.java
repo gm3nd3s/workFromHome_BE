@@ -15,9 +15,9 @@ public class UserConverter {
 				.username(user.getUsername())
 				.password(user.getPassword())
 				.roles(user.getRoles())
-				.citiesVisited(user.getCitiesVisited())
+				.citiesVisited(user.getCitiesVisited().stream().map(CityConverter::convertToDto).toList())
 				.livingCity(user.getLivingCity())
-				.cityReview(user.getCityReview())
+				.cityReview(user.getCityReview().stream().map(ReviewConverter::convertEntityToReviewDto).toList())
 				.build();
 	}
 
@@ -27,9 +27,9 @@ public class UserConverter {
 				.name(userDto.getName())
 				.password(userDto.getPassword())
 				.roles(userDto.getRoles())
-				.citiesVisited(userDto.getCitiesVisited())
+				.citiesVisited(userDto.getCitiesVisited().stream().map(CityConverter::convertCityDtoToCity).toList())
 				.livingCity(userDto.getLivingCity())
-				.cityReview(userDto.getCityReview())
+				.cityReview(userDto.getCityReview().stream().map(ReviewConverter::convertReviewDtoToEntity).toList())
 				.build();
 	}
 
