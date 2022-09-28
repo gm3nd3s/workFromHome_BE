@@ -1,6 +1,7 @@
 package spotify.project.controllers;
 
 
+import org.springframework.cache.annotation.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -10,7 +11,7 @@ import spotify.project.exception.NullException;
 import spotify.project.models.Role;
 import spotify.project.services.TokenService;
 import spotify.project.services.UserService;
-
+import org.springframework.cache.annotation.Cacheable;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -18,6 +19,7 @@ import java.io.IOException;
 import java.util.List;
 
 import static spotify.project.utils.PrintErrors.printErrors;
+
 
 @RestController
 @RequestMapping("/api")
@@ -30,10 +32,12 @@ public class UserController {
 		this.tokenService = tokenService;
 	}
 
+
 	@GetMapping("/users")
 	public ResponseEntity<List<UserDto>> getUsers() {
 		return new ResponseEntity<>(userService.getUsers(), HttpStatus.OK);
 	}
+
 
 	@GetMapping("/{username}")
 	public ResponseEntity<UserDto> getUserByUsername(@PathVariable String username) {
