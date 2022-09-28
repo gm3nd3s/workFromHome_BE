@@ -134,7 +134,7 @@ public class UserController {
 										  @RequestBody CreateReviewDto createReviewDto,
 										  BindingResult bindingResult,
 										  @PathVariable String cityName,
-										  @PathVariable String user) {
+										  @PathVariable String user)
 		if (bindingResult.hasErrors()) {
 			return printErrors(bindingResult);
 		}
