@@ -9,6 +9,18 @@ import java.util.Optional;
 public class UserConverter {
 
 	public static UserDto convertEntityToUserDto(User user) {
+		if(user.getCitiesVisited() == null) {
+			return UserDto.builder()
+					.id(user.getId())
+					.name(user.getName())
+					.username(user.getUsername())
+					.password(user.getPassword())
+					.roles(user.getRoles())
+					.citiesVisited(new ArrayList<>())
+					.livingCity(user.getLivingCity())
+					.cityReview(new ArrayList<>())
+					.build();
+		}
 		return UserDto.builder()
 				.id(user.getId())
 				.name(user.getName())

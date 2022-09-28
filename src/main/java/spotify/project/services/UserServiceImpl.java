@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService {
 
 	private final ReviewService reviewService;
 
-	@Cacheable(value = "users", key="#p0", unless = "#result == null")
+
 	@Override
 	public UserDto registerUser(CreateUserDto user) {
 		if (userExists(user.getUsername())) {
@@ -59,6 +59,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public Role saveRole(Role role) {
 		if (roleExists(role.getRoleType())) {
+			log.error(Messages.ROLE_ALREADY_EXISTS);
 			throw new RoleAlreadyExistsException();
 		}
 		log.info("Saving new role {} to the database", role.getRoleType());
@@ -77,6 +78,7 @@ public class UserServiceImpl implements UserService {
 		Role role = findRoleByRoleType(roleType);
 
 		if (checkIfUserHasRole(user, role)) {
+			log.error(Messages.ROLE_ALREADY_EXISTS);
 			throw new UserAlreadyHasThatRole();
 		}
 
@@ -155,6 +157,7 @@ public class UserServiceImpl implements UserService {
 		roleRepository.delete(findRoleByRoleType(roleType));
 	}
 
+	@Cacheable(value = "users", key="#p0", unless = "#result == null")
 	@Override
 	public UserDto findUserDtoByUsername(String username) {
 		log.info("fetching {}", username);
@@ -181,13 +184,14 @@ public class UserServiceImpl implements UserService {
 		return cityService.getCityDtoByName(cityName);
 	}
 
-	@CachePut(value = "users", key="#p0", unless = "#result == null")
+	@CacheEvict(value = "users", allEntries=true)
 	@Override
 	public UserDto addCityToUser(String username, String cityName) {
 		User user = findUserByUsername(username);
 		City city = cityService.findCityByCityName(cityName);
 
 		if (checkCityInVisitedList(city, user)) {
+			log.error(Messages.CITY_ALREADY_EXISTS);
 			throw new CityAlreadyExistsException();
 		}
 		user.getCitiesVisited().add(city);
@@ -202,7 +206,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 
-	@CachePut(value = "users", key="#p0", unless = "#result == null")
+	@CacheEvict(value = "users", allEntries=true)
 	@Override
 	public UserDto addLivingCityToUser(String username, String cityName) {
 		User user = findUserByUsername(username);
@@ -220,7 +224,7 @@ public class UserServiceImpl implements UserService {
 
 		return findUserByUsername(username)
 				.getCitiesVisited()
-				.stream()
+				.parallelStream()
 				.map(CityConverter::convertToDto)
 				.collect(Collectors.toList());
 	}
@@ -242,16 +246,18 @@ public class UserServiceImpl implements UserService {
 	}
 
 
-	@Cacheable(value = "reviews", key="#p0", unless = "#result == null")
+	@CacheEvict(value = "users", allEntries=true)
 	@Override
 	public ReviewDto addReviewToCityVisited(CreateReviewDto review, String username, String cityName) {
 
 		User user = findUserByUsername(username);
 		City city = cityService.findCityByCityName(cityName);
 		if(!checkIfUserAlreadyVisitedCity(user, city)){
+			log.error(Messages.CITY_NOT_VISITED);
 			throw new CityNotVisitedException();
 		}
 		if (checkReviewAlreadyExists(user, cityName)) {
+			log.error(Messages.REVIEW_ALREADY_EXISTS);
 			throw new ReviewAlreadyExistsException();
 		}
 
@@ -266,12 +272,12 @@ public class UserServiceImpl implements UserService {
 
 		return ReviewConverter.convertEntityToReviewDto(review1);
 	}
-	@CacheEvict(value = "reviews", allEntries=true)
-	@CachePut(value = "reviews", key="#p0", unless = "#result == null")
+	@CacheEvict(value = "users", allEntries=true)
 	@Override
 	public ReviewDto updateReview(CreateReviewDto createReviewDto, String cityName, String user) {
 		User user1 = findUserByUsername(user);
 		if (!checkReviewAlreadyExists(user1, cityName)){
+			log.error(Messages.REVIEW_ALREADY_EXISTS);
 			throw new ReviewNotFoundException();
 		}
 		Review review = user1.getCityReview().stream().filter(review1 -> cityName.equalsIgnoreCase(review1.getCityName())).findFirst().get();
