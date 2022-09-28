@@ -1,5 +1,8 @@
 package spotify.project.services;
 
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.stereotype.Service;
 import spotify.project.apiHandler.ApiHandler;
 import spotify.project.command.*;
@@ -13,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@EnableCaching
 @Service
 public class CityServiceImpl implements CityService {
 
@@ -25,7 +29,7 @@ public class CityServiceImpl implements CityService {
 		this.cityRepository = cityRepository;
 		this.categoryRepository = categoryRepository;
 	}
-
+	@Cacheable(value = "cities", key="#p0", unless = "#result == null")
 	public CreateCityDto getCityDto(String cityName) {
 		CreateCityDto createCityDto = apiHandler.cityDto(cityName);
 		if (checkCityOnDatabase(cityName)) {
@@ -34,7 +38,7 @@ public class CityServiceImpl implements CityService {
 		saveCity(createCityDto);
 		return createCityDto;
 	}
-
+	@Cacheable(value = "cities", key="#p0", unless = "#result == null")
 	public void saveCity(CreateCityDto createCityDto) {
 		saveCityOnRepository(CityConverter
 						.convertCreateCityDtoToCity(createCityDto));
@@ -59,7 +63,7 @@ public class CityServiceImpl implements CityService {
 	public City findCityByCityName(String cityName) {
 		return cityRepository.findByName(cityName).orElseThrow(CityNotFoundEXception::new);
 	}
-
+	@Cacheable(value = "cities", key="#p0", unless = "#result == null")
 	public void saveCityOnRepository(City city) {
 		cityRepository.save(city);
 	}

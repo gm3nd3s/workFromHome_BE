@@ -2,6 +2,10 @@ package spotify.project.services;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import spotify.project.command.*;
@@ -27,6 +31,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Transactional
 @Slf4j
+@EnableCaching
 public class UserServiceImpl implements UserService {
 
 	private final CityService cityService;
@@ -36,7 +41,7 @@ public class UserServiceImpl implements UserService {
 
 	private final ReviewService reviewService;
 
-
+	@Cacheable(value = "users", key="#p0", unless = "#result == null")
 	@Override
 	public UserDto registerUser(CreateUserDto user) {
 		if (userExists(user.getUsername())) {
@@ -59,7 +64,7 @@ public class UserServiceImpl implements UserService {
 		log.info("Saving new role {} to the database", role.getRoleType());
 		return roleRepository.save(role);
 	}
-
+	@CachePut(value = "users", key="#p0", unless = "#result == null")
 	@Override
 	public User addRoleToUser(String username, String roleType) {
 		User user = findUserByUsername(username);
@@ -130,12 +135,12 @@ public class UserServiceImpl implements UserService {
 			addRoleToUser("owner", "OWNER");
 		}
 	}
-
+	@CacheEvict(value = "users", allEntries=true)
 	@Override
 	public void deleteUser(String username) {
 		userRepository.delete(findUserByUsername(username));
 	}
-
+	@CacheEvict(value = "users", allEntries=true)
 	@Override
 	public void deleteRole(String roleType) {
 		roleRepository.delete(findRoleByRoleType(roleType));
@@ -161,12 +166,13 @@ public class UserServiceImpl implements UserService {
 	public List<CityDto> getAllCitiesInDb() {
 		return cityService.getAllCitiesInDB();
 	}
-
-	@Override
+	@Cacheable(value = "cities", key="#p0", unless = "#result == null")	@Override
 	public CityDto getCityDtoByName(String cityName) {
+		System.out.println("gettingFromDB");
 		return cityService.getCityDtoByName(cityName);
 	}
 
+	@CachePut(value = "users", key="#p0", unless = "#result == null")
 	@Override
 	public UserDto addCityToUser(String username, String cityName) {
 		User user = findUserByUsername(username);
@@ -186,6 +192,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 
+	@CachePut(value = "users", key="#p0", unless = "#result == null")
 	@Override
 	public UserDto addLivingCityToUser(String username, String cityName) {
 		User user = findUserByUsername(username);
@@ -224,6 +231,8 @@ public class UserServiceImpl implements UserService {
 		return cityService.getCitiesWithCategoryBiggerThan(category, score);
 	}
 
+
+	@Cacheable(value = "reviews", key="#p0", unless = "#result == null")
 	@Override
 	public ReviewDto addReviewToCityVisited(CreateReviewDto review, String username, String cityName) {
 
@@ -247,7 +256,8 @@ public class UserServiceImpl implements UserService {
 
 		return ReviewConverter.convertEntityToReviewDto(review1);
 	}
-
+	@CacheEvict(value = "reviews", allEntries=true)
+	@CachePut(value = "reviews", key="#p0", unless = "#result == null")
 	@Override
 	public ReviewDto updateReview(CreateReviewDto createReviewDto, String cityName, String user) {
 		User user1 = findUserByUsername(user);
