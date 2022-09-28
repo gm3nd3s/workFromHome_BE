@@ -29,7 +29,7 @@ public class CityServiceImpl implements CityService {
 		this.cityRepository = cityRepository;
 		this.categoryRepository = categoryRepository;
 	}
-	@Cacheable(value = "cities", key="#p0", unless = "#result == null")
+
 	public CreateCityDto getCityDto(String cityName) {
 		CreateCityDto createCityDto = apiHandler.cityDto(cityName);
 		if (checkCityOnDatabase(cityName)) {
@@ -51,7 +51,7 @@ public class CityServiceImpl implements CityService {
 	public List<CityDto> getAllCitiesInDB() {
 		return cityRepository
 				.findAll()
-				.stream()
+				.parallelStream()
 				.map(CityConverter::convertToDto)
 				.collect(Collectors.toList());
 	}
@@ -63,7 +63,7 @@ public class CityServiceImpl implements CityService {
 	public City findCityByCityName(String cityName) {
 		return cityRepository.findByName(cityName).orElseThrow(CityNotFoundEXception::new);
 	}
-	@Cacheable(value = "cities", key="#p0", unless = "#result == null")
+
 	public void saveCityOnRepository(City city) {
 		cityRepository.save(city);
 	}
@@ -72,7 +72,7 @@ public class CityServiceImpl implements CityService {
 	public List<CityDto> getCitiesInDBOrdered() {
 		return cityRepository
 				.getCitiesOrdered()
-				.stream()
+				.parallelStream()
 				.map(CityConverter::convertToDto)
 				.collect(Collectors.toList());
 	}

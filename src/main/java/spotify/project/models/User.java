@@ -40,5 +40,5 @@ public class User {
 	private City livingCity;
 
 	@OneToMany (cascade = {CascadeType.ALL}, mappedBy = "user")
-	private List<Review> cityReview;
+	private List<Review> cityReview = new ArrayList<>();
 }
