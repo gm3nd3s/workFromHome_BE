@@ -7,12 +7,15 @@ import spotify.project.models.City;
 import spotify.project.models.Review;
 import spotify.project.models.Role;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
 @Builder
-public class UserDto {
+public class UserDto implements Serializable {
+	private static final long serialVersionUID = 7156526077883281623L;
+
 	@JsonIgnore
 	private Long id;
 	private String name;

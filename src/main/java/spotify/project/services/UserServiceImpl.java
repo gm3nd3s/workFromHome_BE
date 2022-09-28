@@ -66,7 +66,6 @@ public class UserServiceImpl implements UserService {
 		return roleRepository.save(role);
 	}
 	@CachePut(value = "users", key="#p0", unless = "#result == null")
-
 	@Override
 	public void saveUser(User user){
 		userRepository.save(user);
@@ -144,6 +143,7 @@ public class UserServiceImpl implements UserService {
 							.build();
 			userRepository.save(newUser);
 			addRoleToUser("owner", "OWNER");
+			addRoleToUser("owner", "USER");
 		}
 	}
 	@CacheEvict(value = "users", allEntries=true)

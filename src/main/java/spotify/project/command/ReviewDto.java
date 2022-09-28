@@ -4,11 +4,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Data
 @Builder
-public class ReviewDto {
+public class ReviewDto implements Serializable {
+	private static final long serialVersionUID = 7156526077883281623L;
 
 	@JsonIgnore
 	private Integer id;
