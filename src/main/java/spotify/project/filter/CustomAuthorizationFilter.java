@@ -26,7 +26,7 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 
-//onceperequestfilter interseta todos os requests do server
+
 @Slf4j
 public class CustomAuthorizationFilter extends OncePerRequestFilter {
 
@@ -42,27 +42,26 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
 			if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
 				try {
 					String token = authorizationHeader.substring("Bearer ".length());
-					Algorithm algorithm = Algorithm.HMAC256("secret".getBytes()); //secret é tipo a assinatura do nosso token, deveria ser guardada e encriptada num local seguro
+					Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
 					JWTVerifier verifier = JWT.require(algorithm).build();
 					DecodedJWT decodedJWT = verifier.verify(token);
-					String username = decodedJWT.getSubject(); //dá me username
-					String[] roles = decodedJWT.getClaim("roles").asArray(String.class); //definimos no C.A.Filter que o claim era os roles
+					String username = decodedJWT.getSubject();
+					String[] roles = decodedJWT.getClaim("roles").asArray(String.class);
 					Collection<SimpleGrantedAuthority> authorities = stream(roles).map(SimpleGrantedAuthority::new).collect(Collectors.toList());
-					// stream(roles).forEach(role -> authorities.add(new SimpleGrantedAuthority(role)));
+
 					UsernamePasswordAuthenticationToken authenticationToken =
-							new UsernamePasswordAuthenticationToken(username, null, authorities);//credentials é a password, que nao temos so temos o token
-					SecurityContextHolder.getContext().setAuthentication(authenticationToken);//basicament está a dizer ao sistema que este user que estou a
-					// enviar está autenticado e tem os roles x,y,z
+							new UsernamePasswordAuthenticationToken(username, null, authorities);
+					SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 					filterChain.doFilter(request, response);
 				} catch (Exception exception) {
 					log.error("Error logging in {}", exception);
 					response.setHeader("error", exception.getMessage());
 					response.setStatus(FORBIDDEN.value());
-					//response.sendError(FORBIDDEN.value());
+
 					Map<String, String> error = new HashMap<>();
 					error.put("error_message", exception.getMessage());
 					response.setContentType(APPLICATION_JSON_VALUE);
-					new ObjectMapper().writeValue(response.getOutputStream(), error);// devolve os tokens na resposta
+					new ObjectMapper().writeValue(response.getOutputStream(), error);
 				}
 			} else {
 				filterChain.doFilter(request, response);

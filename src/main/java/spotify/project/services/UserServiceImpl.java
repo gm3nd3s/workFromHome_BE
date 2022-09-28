@@ -180,7 +180,7 @@ public class UserServiceImpl implements UserService {
 	}
 	@Cacheable(value = "cities", key="#p0", unless = "#result == null")	@Override
 	public CityDto getCityDtoByName(String cityName) {
-		System.out.println("gettingFromDB");
+		log.info(cityName + "requested from db");
 		return cityService.getCityDtoByName(cityName);
 	}
 
@@ -231,8 +231,13 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public CityDto getUserLivingCity(String username) {
+		City city = findUserByUsername(username).getLivingCity();
+
+		if(city == null){
+			throw new NoLivingCityException();
+		}
 		return CityConverter
-				.convertToDto(findUserByUsername(username).getLivingCity());
+				.convertToDto(city);
 	}
 
 	@Override

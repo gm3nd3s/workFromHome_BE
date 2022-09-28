@@ -25,4 +25,6 @@ public final class Messages {
     public static final String CITY_NOT_VISITED = "You have to visit the city first in order to place a review.";
 	public static final String REVIEW_NOT_FOUND = "Review not found. You need make a review first, in order to be able to update it.";
 	public static final String PASSWORDS_NOT_MATCH = "Passwords do not match.";
+
+	public static final String NO_LIVING_CITY = "User didn't define is living city yet.";
 }
