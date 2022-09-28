@@ -7,6 +7,7 @@ import spotify.project.models.City;
 import spotify.project.models.Review;
 import spotify.project.models.Role;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data

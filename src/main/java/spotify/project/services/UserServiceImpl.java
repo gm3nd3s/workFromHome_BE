@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService {
 
 	private final ReviewService reviewService;
 
-	@Cacheable(value = "users", key="#p0", unless = "#result == null")
+
 	@Override
 	public UserDto registerUser(CreateUserDto user) {
 		if (userExists(user.getUsername())) {
@@ -146,6 +146,7 @@ public class UserServiceImpl implements UserService {
 		roleRepository.delete(findRoleByRoleType(roleType));
 	}
 
+	@Cacheable(value = "users", key="#p0", unless = "#result == null")
 	@Override
 	public UserDto findUserDtoByUsername(String username) {
 		log.info("fetching {}", username);
@@ -172,7 +173,7 @@ public class UserServiceImpl implements UserService {
 		return cityService.getCityDtoByName(cityName);
 	}
 
-	@CachePut(value = "users", key="#p0", unless = "#result == null")
+	@CacheEvict(value = "users", allEntries=true)
 	@Override
 	public UserDto addCityToUser(String username, String cityName) {
 		User user = findUserByUsername(username);
@@ -192,7 +193,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 
-	@CachePut(value = "users", key="#p0", unless = "#result == null")
+	@CacheEvict(value = "users", allEntries=true)
 	@Override
 	public UserDto addLivingCityToUser(String username, String cityName) {
 		User user = findUserByUsername(username);
@@ -210,7 +211,7 @@ public class UserServiceImpl implements UserService {
 
 		return findUserByUsername(username)
 				.getCitiesVisited()
-				.stream()
+				.parallelStream()
 				.map(CityConverter::convertToDto)
 				.collect(Collectors.toList());
 	}
@@ -232,7 +233,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 
-	@Cacheable(value = "reviews", key="#p0", unless = "#result == null")
+	@CacheEvict(value = "users", allEntries=true)
 	@Override
 	public ReviewDto addReviewToCityVisited(CreateReviewDto review, String username, String cityName) {
 
@@ -256,8 +257,7 @@ public class UserServiceImpl implements UserService {
 
 		return ReviewConverter.convertEntityToReviewDto(review1);
 	}
-	@CacheEvict(value = "reviews", allEntries=true)
-	@CachePut(value = "reviews", key="#p0", unless = "#result == null")
+	@CacheEvict(value = "users", allEntries=true)
 	@Override
 	public ReviewDto updateReview(CreateReviewDto createReviewDto, String cityName, String user) {
 		User user1 = findUserByUsername(user);
