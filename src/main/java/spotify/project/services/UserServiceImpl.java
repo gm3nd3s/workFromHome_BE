@@ -65,6 +65,12 @@ public class UserServiceImpl implements UserService {
 		return roleRepository.save(role);
 	}
 	@CachePut(value = "users", key="#p0", unless = "#result == null")
+
+	@Override
+	public void saveUser(User user){
+		userRepository.save(user);
+	}
+
 	@Override
 	public User addRoleToUser(String username, String roleType) {
 		User user = findUserByUsername(username);
@@ -101,6 +107,9 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public boolean checkIfUserHasRole(User user, Role role) {
+		if(user.getRoles().size() == 0){
+			return false;
+		}
 		for (int i = 0; i < user.getRoles().size(); i++) {
 			if (user.getRoles().get(i).equals(role)) {
 				return true;
@@ -177,6 +186,7 @@ public class UserServiceImpl implements UserService {
 	public UserDto addCityToUser(String username, String cityName) {
 		User user = findUserByUsername(username);
 		City city = cityService.findCityByCityName(cityName);
+
 		if (checkCityInVisitedList(city, user)) {
 			throw new CityAlreadyExistsException();
 		}
@@ -184,7 +194,7 @@ public class UserServiceImpl implements UserService {
 		userRepository.save(user);
 		return UserConverter.convertEntityToUserDto(user);
 	}
-
+	@Override
 	public boolean checkCityInVisitedList(City city, User user) {
 		if(user.getCitiesVisited().size() == 0){
 			return false;}
@@ -272,6 +282,7 @@ public class UserServiceImpl implements UserService {
 		return ReviewConverter.convertEntityToReviewDto(review);
 	}
 
+	@Override
 	public boolean checkReviewAlreadyExists(User user, String cityName) {
 		if(user.getCityReview().size() == 0) {
 			return false;

@@ -2,6 +2,7 @@ package spotify.project.services;
 
 
 import spotify.project.command.*;
+import spotify.project.models.City;
 import spotify.project.models.Role;
 import spotify.project.models.User;
 
@@ -56,7 +57,9 @@ public interface UserService {
 
 	ReviewDto updateReview(CreateReviewDto createReviewDto, String cityName, String user);
 
-   /* void addCityToUser(String username, String cityName);
+ 	void saveUser(User user);
 
-    void addCityToUserListOfCities(String username, String cityName);*/
+	public boolean checkCityInVisitedList(City city, User user);
+
+	public boolean checkReviewAlreadyExists(User user, String cityName);
 }
