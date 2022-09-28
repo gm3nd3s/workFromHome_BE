@@ -7,7 +7,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import spotify.project.command.*;
 import spotify.project.exception.NullException;
-import spotify.project.models.City;
 import spotify.project.models.Role;
 import spotify.project.services.TokenService;
 import spotify.project.services.UserService;
@@ -67,7 +66,6 @@ public class UserController {
 		userService.deleteUser(username);
 	}
 
-
 	@DeleteMapping("/delete/role={roleType}")
 	public void deleteRole(@PathVariable String roleType) {
 		if (roleType == null) {
@@ -102,7 +100,8 @@ public class UserController {
 	}
 
 	@GetMapping("cities/{category}/{score}")
-	public ResponseEntity<List<CityDtoWithCategory>> getCitiesWithCategoryBiggerThan(@PathVariable String category, @PathVariable Integer score) {
+	public ResponseEntity<List<CityDtoWithCategory>> getCitiesWithCategoryBiggerThan(@PathVariable String category,
+																					 @PathVariable Integer score) {
 		return new ResponseEntity<>(userService.getCitiesWithCategoryBiggerThan(category, score), HttpStatus.OK);
 	}
 
@@ -115,7 +114,6 @@ public class UserController {
 	public ResponseEntity<?> addCityToUser(@PathVariable String username, @PathVariable String cityName) {
 		return new ResponseEntity<>(userService.addCityToUser(username, cityName), HttpStatus.OK);
 	}
-
 
 	@PostMapping("/review/{username}/{cityName}")
 	public ResponseEntity<?> addReviewToCityVisited(@Valid
@@ -134,7 +132,7 @@ public class UserController {
 										  @RequestBody CreateReviewDto createReviewDto,
 										  BindingResult bindingResult,
 										  @PathVariable String cityName,
-										  @PathVariable String user)
+										  @PathVariable String user) {
 		if (bindingResult.hasErrors()) {
 			return printErrors(bindingResult);
 		}
