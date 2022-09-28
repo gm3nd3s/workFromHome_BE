@@ -59,6 +59,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public Role saveRole(Role role) {
 		if (roleExists(role.getRoleType())) {
+			log.error(Messages.ROLE_ALREADY_EXISTS);
 			throw new RoleAlreadyExistsException();
 		}
 		log.info("Saving new role {} to the database", role.getRoleType());
@@ -77,6 +78,7 @@ public class UserServiceImpl implements UserService {
 		Role role = findRoleByRoleType(roleType);
 
 		if (checkIfUserHasRole(user, role)) {
+			log.error(Messages.ROLE_ALREADY_EXISTS);
 			throw new UserAlreadyHasThatRole();
 		}
 
@@ -189,6 +191,7 @@ public class UserServiceImpl implements UserService {
 		City city = cityService.findCityByCityName(cityName);
 
 		if (checkCityInVisitedList(city, user)) {
+			log.error(Messages.CITY_ALREADY_EXISTS);
 			throw new CityAlreadyExistsException();
 		}
 		user.getCitiesVisited().add(city);
@@ -250,9 +253,11 @@ public class UserServiceImpl implements UserService {
 		User user = findUserByUsername(username);
 		City city = cityService.findCityByCityName(cityName);
 		if(!checkIfUserAlreadyVisitedCity(user, city)){
+			log.error(Messages.CITY_NOT_VISITED);
 			throw new CityNotVisitedException();
 		}
 		if (checkReviewAlreadyExists(user, cityName)) {
+			log.error(Messages.REVIEW_ALREADY_EXISTS);
 			throw new ReviewAlreadyExistsException();
 		}
 
@@ -272,6 +277,7 @@ public class UserServiceImpl implements UserService {
 	public ReviewDto updateReview(CreateReviewDto createReviewDto, String cityName, String user) {
 		User user1 = findUserByUsername(user);
 		if (!checkReviewAlreadyExists(user1, cityName)){
+			log.error(Messages.REVIEW_ALREADY_EXISTS);
 			throw new ReviewNotFoundException();
 		}
 		Review review = user1.getCityReview().stream().filter(review1 -> cityName.equalsIgnoreCase(review1.getCityName())).findFirst().get();
