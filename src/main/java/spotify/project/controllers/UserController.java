@@ -4,6 +4,7 @@ package spotify.project.controllers;
 import org.springframework.cache.annotation.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import spotify.project.command.*;
@@ -31,7 +32,6 @@ public class UserController {
 		this.userService = userService;
 		this.tokenService = tokenService;
 	}
-
 
 	@GetMapping("/users")
 	public ResponseEntity<List<UserDto>> getUsers() {
