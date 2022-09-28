@@ -45,7 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests()
 				.antMatchers("/api/login/**", "/api/user/**", "/teleportApi/**").permitAll()
 				.antMatchers("/api/citiesOrdered", "/api/allCities/**", "/api/cityDB/", "/api/cities/**", "/api/refreshToken/**").hasAnyAuthority("OWNER, ADMIN, USER")
-				.antMatchers("/api/users/**", "/api/role/**", "/api/delete/**").hasAnyAuthority("OWNER, ADMIN")
+				.antMatchers("/api/users/**", "/api/role/**", "/api/delete/**", "/api/**").hasAnyAuthority("OWNER, ADMIN")
 				.antMatchers("/api/review/**", "/api/visited/**", "/api/updateReview/**", "/api/livingCity/**").hasAnyAuthority("USER")
 				.anyRequest().authenticated();
 		http.addFilter(customAuthenticationFilter);
