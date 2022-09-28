@@ -130,7 +130,11 @@ public class UserController {
 	}
 
 	@PutMapping("/updateReview/{cityName}/{user}")
-	public ResponseEntity<?> updateReview(@Valid @RequestBody CreateReviewDto createReviewDto,BindingResult bindingResult, @PathVariable String cityName, @PathVariable String user) {
+	public ResponseEntity<?> updateReview(@Valid
+										  @RequestBody CreateReviewDto createReviewDto,
+										  BindingResult bindingResult,
+										  @PathVariable String cityName,
+										  @PathVariable String user)
 		if (bindingResult.hasErrors()) {
 			return printErrors(bindingResult);
 		}
