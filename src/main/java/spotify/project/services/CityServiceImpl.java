@@ -38,7 +38,7 @@ public class CityServiceImpl implements CityService {
 		saveCity(createCityDto);
 		return createCityDto;
 	}
-	@Cacheable(value = "cities", key="#p0", unless = "#result == null")
+
 	public void saveCity(CreateCityDto createCityDto) {
 		saveCityOnRepository(CityConverter
 						.convertCreateCityDtoToCity(createCityDto));
@@ -57,7 +57,7 @@ public class CityServiceImpl implements CityService {
 	}
 
 	public CityDto getCityDtoByName(String name) {
-		return CityConverter.convertToDto(cityRepository.findByName(name).orElseThrow());
+		return CityConverter.convertToDto(cityRepository.findByName(name).orElseThrow(CityNotFoundEXception::new));
 	}
 
 	public City findCityByCityName(String cityName) {

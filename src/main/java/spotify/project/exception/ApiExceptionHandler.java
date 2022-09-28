@@ -17,7 +17,7 @@ public class ApiExceptionHandler {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ApiExceptionHandler.class);
 
-	@ExceptionHandler(value = {CityNotVisitedException.class, ReviewNotFoundException.class, UserNotFoundException.class, RoleNotFoundException.class, CityNotFoundEXception.class, NullException.class})
+	@ExceptionHandler(value = {NoLivingCityException.class, CityNotVisitedException.class, ReviewNotFoundException.class, UserNotFoundException.class, RoleNotFoundException.class, CityNotFoundEXception.class, NullException.class})
 	public ResponseEntity<Error> dealWithNotFound(Exception exception, HttpServletRequest request) {
 
 		return new ResponseEntity<>(Error.builder()
