@@ -3,16 +3,23 @@ package spotify.project;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import spotify.project.command.CreateUserDto;
+import spotify.project.command.UserConverter;
+import spotify.project.command.UserDto;
 import spotify.project.models.User;
 import spotify.project.repositories.UserRepository;
+import spotify.project.services.UserService;
+import spotify.project.services.UserServiceImpl;
 
 import javax.transaction.Transactional;
 
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.AUTO_CONFIGURED)
 @ExtendWith(SpringExtension.class)
 @Transactional
 @DataJpaTest
@@ -20,6 +27,7 @@ public class RepositoryTest {
 
     @Autowired
     UserRepository userRepository;
+
     @Test
     void testUserRepository() {
         //Arrange
@@ -36,4 +44,7 @@ public class RepositoryTest {
 
         Assertions.assertEquals(expectedUsername, result);
     }
+
+        UserServiceImpl userService = Mockito.mock(UserServiceImpl.class);
+
 }
