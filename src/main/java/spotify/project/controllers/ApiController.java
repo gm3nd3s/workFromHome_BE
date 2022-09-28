@@ -14,10 +14,10 @@ import spotify.project.services.CityServiceImpl;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/teleportApi")
 public class ApiController {
 
-	private CityServiceImpl cityService;
+	private final CityServiceImpl cityService;
 
 	public ApiController(CityServiceImpl cityService) {
 		this.cityService = cityService;

@@ -26,7 +26,10 @@ public class PasswordController {
 	}
 
 	@PutMapping("/changepassword")
-	public ResponseEntity<?> changePassword(@Valid @RequestBody PasswordDto passwordDto, BindingResult bindingResult, HttpServletRequest request) {
+	public ResponseEntity<?> changePassword(@Valid
+											@RequestBody PasswordDto passwordDto,
+											BindingResult bindingResult,
+											HttpServletRequest request) {
 		if (bindingResult.hasErrors()) {
 			return printErrors(bindingResult);
 		}
