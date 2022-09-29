@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  mindswap-mysql:
+    image: mysql:latest
+    container_name: finalProject-mysql
+    ports:
+      - '3308:3306'
+    #   volumes:
+    #     - './data/mariadb:/var/lib/mysql'
+    environment:
+      MYSQL_ROOT_PASSWORD: 'password'
+      MYSQL_DATABASE: 'mindwap'
+    restart: always
+
+  mindswap-redis:
+    image: redis:latest
+    container_name: finalProject-redis
+    ports:
+    - '6378:6379'
+
+  mindswap-app:
+    image : fbae18587b8c
+    restart: on-failure
+    container_name: finalproject-app
+    depends_on:
+      - mindswap-mysql
+    ports:
+      - '8083:8083'
+    environment:
+      MYSQL_HOST: 'mindswap-mysql'
+      MYSQL_DB: 'backendProject'
+      MYSQL_USER: 'root'
+      MYSQL_PASSWORD: 'password'
+      SERVER_PORT: '8083'
+      HIBERNATE_DDL_AUTO: 'update'

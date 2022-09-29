@@ -7,13 +7,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Data
 @Builder
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-public class Category {
+public class Category implements Serializable {
+	private static final long serialVersionUID = 7156526077883281623L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
