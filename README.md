@@ -1,6 +1,6 @@
 
-  
-  # Work From Home
+  ![workFromHome](https://user-images.githubusercontent.com/104323577/193019481-fc8262ea-e872-486e-9860-9a8f053438ba.jpg)
+
   ## **Description**
   This program was developed as a study project in the Mindswap Academy. The program can do requests to an externel API (Teleport - https://developers.teleport.org/) with cities and their rankings of evaluation. As a User you can see a list of cities, you can add them to your list of visited cities, you can also make a review of a city you visited and have a living city in your profile. This project was made thinking on the people that want to explore the world living in different places for short periods of time.
 
@@ -91,11 +91,14 @@
   - Updaters
 
 	  - Update the password: /changepassword
+	  
+  <img width="1019" alt="Screenshot 2022-09-28 at 13 05 19" src="https://user-images.githubusercontent.com/104323577/192774539-876e745e-642f-4893-adad-4b2b96d8025d.png">
     
   ---
 
   ## **Credits**
   Gonçalo Mendes, Ana Sequeira and Tiago Costa.
+  
   
   ---
 
@@ -107,6 +110,3 @@
   [Personal Page](https://gm3nd3s.github.io)
 
   If you have any questions, you can reach me at <mendes.gjl@gmail.com>
-  
-  <img width="1019" alt="Screenshot 2022-09-28 at 13 05 19" src="https://user-images.githubusercontent.com/104323577/192774539-876e745e-642f-4893-adad-4b2b96d8025d.png">
-
